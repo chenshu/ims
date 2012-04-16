@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <title>{{ escape(handler.settings["title"]) }}</title>
+    <link rel="stylesheet" href="{{ static_url("ims.css") }}" type="text/css"/>
+    <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["title"]) }}"/>
+    {% block head %}{% end %}
+  </head>
+  <body>
+    <div id="body">
+      <div id="header">
+        <div style="float:right">
+          {{ _('<a href="%(url)s">Sign In</a> if have an Account') % {"url": "/auth/login?next=" + url_escape("/")} }}
+        </div>
+        <h1><a href="/">{{ escape(handler.settings["title"]) }}</a></h1>
+      </div>
+      <div id="content">
+        {% if error_messages %}
+          {% for error in error_messages %}
+            <p class="error">{{ escape(error) }}</p>
+          {% end %}
+        {% end %}
+        <form action="/auth/signup" method="post">
+          {{ xsrf_form_html() }}
+          Username: <input type="text" name="username"><br />
+          Password: <input type="password" name="password"><br />
+          Password Again: <input type="password" name="password_confirm"><br />
+          <input type="submit" value="Sign up">
+        </form>
+    </div>
+    {% block bottom %}{% end %}
+  </body>
+</html>

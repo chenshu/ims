@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="menu">
+        <ul id="theMenu">
+            <li><a href="/business/imposition/project" class="menuLink">{{ _("项目") }}</a></li>
+            <li>
+                <a href="/business/imposition/database" class="menuLink">{{ _("基础数据库管理") }}</a>
+                <ul>
+                    <li><a href="/business/imposition/database/bungalow">{{ _("平房数据") }}</a></li>
+                    <li><a href="/business/imposition/database/building">{{ _("楼房数据") }}</a></li>
+                    <li><a href="/business/imposition/database/tree">{{ _("树木数据") }}</a></li>
+                    <li><a href="/business/imposition/database/attachment">{{ _("附属物数据") }}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+{% end %}

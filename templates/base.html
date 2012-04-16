@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <title>{{ escape(handler.settings["title"]) }}</title>
+    <link rel="stylesheet" href="{{ static_url("css/jquery-ui-1.8.18.css") }}" type="text/css"/>    
+    <link rel="stylesheet" href="{{ static_url("css/ims.css") }}" type="text/css"/>
+    <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["title"]) }}"/>
+    <script type="text/javascript" src="{{ static_url("js/jquery-1.7.2.min.js") }}"></script>
+    <script type="text/javascript" src="{{ static_url("js/jquery-ui-1.8.18.min.js") }}"></script>
+    <script type="text/javascript" src="{{ static_url("js/ims.js") }}"></script>
+    {% block head %}{% end %}
+  </head>
+  <body>
+    <div id="body">
+      <div id="header">
+        <div style="float:right">
+          {% if current_user %}
+            {{ _('Hello, %(name)s') % {"name": current_user.username} }} -
+            {{ _('<a href="%(url)s">Sign out</a>') % {"url": "/auth/logout?next=" + url_escape(request.uri)} }}
+          {% else %}
+            {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/auth/login?next=" + url_escape(request.uri)} }}
+          {% end %}
+        </div>
+        <div><h1><a href="/">{{ escape(handler.settings["title"]) }}</a></h1></div>
+      </div>
+      <div id="content">{% block body %}{% end %}</div>
+    </div>
+    {% block bottom %}{% end %}
+  </body>
+</html>

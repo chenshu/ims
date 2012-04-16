@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="menu">
+        <ul id="theMenu">
+            <li>
+                <a href="/business/imposition" class="menuLink">{{ _("征收事业部") }}</a>
+                <ul>
+                    <li><a href="/business/imposition/project">{{ _("项目") }}</a></li>
+                    <li><a href="/business/imposition/database">{{ _("基础数据库") }}</a></li>
+                </ul>
+            </li>
+            <li><a href="/business/finance" class="menuLink">{{ _("金融事业部") }}</a></li>
+        </ol>
+    </div>
+{% end %}
