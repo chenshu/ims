@@ -6,9 +6,9 @@
             <th>屋面类型</th>
             <th>修正系数</th>
         </thead>
-        {% for item in data %}
+        {% for index, item in enumerate(data) %}
             <tr>
-                <td>{{ item.id }}</td>
+                <td>{{ index+1 }}</td>
                 <td>{{ escape(item.roof_type) }}</td>
                 <td>{{ item.correction_factor }}</td>
             </tr>

@@ -6,9 +6,9 @@
             <th>增项</th>
             <th>价格</th>
         </thead>
-        {% for item in data %}
+        {% for index, item in enumerate(data) %}
             <tr>
-                <td>{{ item.id }}</td>
+                <td>{{ index+1 }}</td>
                 <td>{{ escape(item.additional) }}</td>
                 <td>{{ item.price }}</td>
             </tr>

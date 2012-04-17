@@ -32,4 +32,16 @@ $(document).ready(function() {
         return false;
     });
 
+    $("#building_basic_price_data_field").hide();
+    $("#building_basic_price_data").toggle(
+        function() {
+            $("#" + $(this).attr("id") + "field").show("slow");
+            return false;
+        },
+        function() {
+            $("#" + $(this).attr("id") + "field").hide();
+            return false;
+        }
+    );
+
 });

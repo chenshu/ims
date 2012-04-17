@@ -199,8 +199,6 @@ class BusinessImpositionDatabaseDetailHandler(BaseHandler):
                     'building_floor_correction'):
                 raise tornado.web.HTTPError(400)
             data = self.db.query("SELECT * FROM %s" % (table))
-            for item in data:
-                print item
             self.render("%s.html" % (table), data=data)
         elif datatype == 'tree':
             pass

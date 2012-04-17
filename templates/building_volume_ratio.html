@@ -7,9 +7,9 @@
             <th>修正系数</th>
             <th>类别</th>
         </thead>
-        {% for item in data %}
+        {% for index, item in enumerate(data) %}
             <tr>
-                <td>{{ item.id }}</td>
+                <td>{{ index+1 }}</td>
                 <td>{{ escape(item.volume) }}</td>
                 <td>{{ item.correction_factor }}</td>
                 <td>{{ escape(item.product_type) }}</td>
