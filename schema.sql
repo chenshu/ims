@@ -128,18 +128,18 @@ CREATE TABLE building_volume_ratio (
     -- 容积率系数
     volume VARCHAR(250) collate utf8_general_ci NOT NULL,
     -- 修正系数
-    corection_factor FLOAT NOT NULL,
+    correction_factor FLOAT NOT NULL,
     -- 类别:住宅,非住宅
     product_type VARCHAR(250) collate utf8_general_ci NOT NULL
 );
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (1, 'r＜0.1', 2, '住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (2, '0.1<=r<0.2', 1.9, '住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (3, '0.2<=r<0.3', 1.8, '住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (4, '0.3<=r<0.4', 1.7, '住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (5, '0.1', 6, '非住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (6, '0.2', 3.22, '非住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (7, '0.3', 2.3, '非住宅');
-INSERT INTO building_volume_ratio (id, volume, corection_factor, product_type) VALUES (8, '0.4', 1.83, '非住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (1, 'r＜0.1', 2, '住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (2, '0.1<=r<0.2', 1.9, '住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (3, '0.2<=r<0.3', 1.8, '住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (4, '0.3<=r<0.4', 1.7, '住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (5, '0.1', 6, '非住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (6, '0.2', 3.22, '非住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (7, '0.3', 2.3, '非住宅');
+INSERT INTO building_volume_ratio (id, volume, correction_factor, product_type) VALUES (8, '0.4', 1.83, '非住宅');
 -- 楼房修正
 DROP TABLE IF EXISTS building_floor_correction;
 CREATE TABLE building_floor_correction (

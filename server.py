@@ -53,7 +53,6 @@ class BaseHandler(tornado.web.RequestHandler):
             if old == path:
                 continue
             url = "%s/%s" % (old, path)
-            print url
             name = ''
             if url == '/':
                 name = '首页'
@@ -190,7 +189,19 @@ class BusinessImpositionDatabaseDetailHandler(BaseHandler):
         if datatype == 'bungalow':
             pass
         elif datatype == 'building':
-            pass
+            table = self.get_argument("t", None)
+            if table is None or table not in ( \
+                    'building_basic_price', \
+                    'building_towards_correction', \
+                    'building_roof_type_correction', \
+                    'building_additional_price', \
+                    'building_volume_ratio', \
+                    'building_floor_correction'):
+                raise tornado.web.HTTPError(400)
+            data = self.db.query("SELECT * FROM %s" % (table))
+            for item in data:
+                print item
+            self.render("%s.html" % (table), data=data)
         elif datatype == 'tree':
             pass
         elif datatpe == 'attachment':

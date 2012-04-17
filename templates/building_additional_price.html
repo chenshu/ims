@@ -1,0 +1,17 @@
+<div class="table">
+    <h3>楼房增项价格</h3>
+    <table>
+        <thead>
+            <th>序号</th>
+            <th>增项</th>
+            <th>价格</th>
+        </thead>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ escape(item.additional) }}</td>
+                <td>{{ item.price }}</td>
+            </tr>
+        {% end %}
+    </table>
+</div>

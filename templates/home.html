@@ -1,16 +1,22 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <div id="menu">
-        <ul id="theMenu">
+    <div>
+        <ul id="menu">
             <li>
                 <a href="/business" class="menuLink">{{ _("部门业务") }}</a>
                 <ul>
-                    <li><a href="/business/imposition">{{ _("征收事业部") }}</a></li>
-                    <li><a href="/business/finance">{{ _("金融事业部") }}</a></li>
+                    <li><a href="/business/imposition" class="showLink">{{ _("征收事业部") }}</a></li>
+                    <li><a href="/business/finance" class="showLink">{{ _("金融事业部") }}</a></li>
                 </ul>
             </li>
-            <li><a href="/manage" class="menuLink">{{ _("权限管理") }}</a></li>
+            <li>
+                <a href="/manage" class="menuLink">{{ _("权限管理") }}</a>
+                <ul>
+                    <li><a href="#" class="showLink">{{ _("用户管理") }}</a></li>
+                    <li><a href="#" class="showLink">{{ _("权限设置") }}</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 {% end %}

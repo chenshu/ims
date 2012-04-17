@@ -1,18 +1,45 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <div id="menu">
-        <ul id="theMenu">
+    <div>
+        <h3>征收事业部</h3>
+    </div>
+    <div>
+        <ul id="menu">
             <li><a href="/business/imposition/project" class="menuLink">{{ _("项目") }}</a></li>
             <li>
                 <a href="/business/imposition/database" class="menuLink">{{ _("基础数据库管理") }}</a>
                 <ul>
-                    <li><a href="/business/imposition/database/bungalow">{{ _("平房数据") }}</a></li>
-                    <li><a href="/business/imposition/database/building">{{ _("楼房数据") }}</a></li>
-                    <li><a href="/business/imposition/database/tree">{{ _("树木数据") }}</a></li>
-                    <li><a href="/business/imposition/database/attachment">{{ _("附属物数据") }}</a></li>
+                    <li><a href="/business/imposition/database/bungalow" id="bungalow_showLink" class="showLink">{{ _("平房数据") }}</a></li>
+                    <li><a href="/business/imposition/database/building" id="building_showLink" class="showLink">{{ _("楼房数据") }}</a></li>
+                    <li><a href="/business/imposition/database/tree" id="tree_showLink" class="showLink">{{ _("树木数据") }}</a></li>
+                    <li><a href="/business/imposition/database/attachment" id="attachment_showLink" class="showLink">{{ _("附属物数据") }}</a></li>
                 </ul>
             </li>
         </ul>
+    </div>
+
+    <div>
+        <div id="bungalow_tabs" class="tabs">
+            <ul>
+                <li><a href="/business/imposition/database/bungalow?t=bungalow_basic_price">x数据基本价格</a></li>
+                <li><a href="/business/imposition/database/bungalow?t=bungalow_towards_correction">朝向修正</a></li>
+                <li><a href="/business/imposition/database/bungalow?t=bungalow_roof_type_correction">屋面类型修正</a></li>
+                <li><a href="/business/imposition/database/bungalow?t=bungalow_additional_price">增项价格</a></li>
+                <li><a href="/business/imposition/database/bungalow?t=bungalow_volume_ratio">容积率</a></li>
+                <li><a href="/business/imposition/database/bungalow?t=bungalow_floor_correction">x修正</a></li>
+            </ul>
+        </div>
+
+        <div id="building_tabs" class="tabs">
+            <ul>
+                <li><a href="/business/imposition/database/building?t=building_basic_price">数据基本价格</a></li>
+                <li><a href="/business/imposition/database/building?t=building_towards_correction">朝向修正</a></li>
+                <li><a href="/business/imposition/database/building?t=building_roof_type_correction">屋面类型修正</a></li>
+                <li><a href="/business/imposition/database/building?t=building_additional_price">增项价格</a></li>
+                <li><a href="/business/imposition/database/building?t=building_volume_ratio">容积率</a></li>
+                <li><a href="/business/imposition/database/building?t=building_floor_correction">修正</a></li>
+            </ul>
+        </div>
     </div>
 {% end %}

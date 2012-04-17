@@ -1,0 +1,19 @@
+<div class="table">
+    <h3>楼房容积率</h3>
+    <table>
+        <thead>
+            <th>序号</th>
+            <th>容积率系数</th>
+            <th>修正系数</th>
+            <th>类别</th>
+        </thead>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ escape(item.volume) }}</td>
+                <td>{{ item.correction_factor }}</td>
+                <td>{{ escape(item.product_type) }}</td>
+            </tr>
+        {% end %}
+    </table>
+</div>

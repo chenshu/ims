@@ -1,0 +1,17 @@
+<div class="table">
+    <h3>楼房屋面类型修正</h3>
+    <table>
+        <thead>
+            <th>序号</th>
+            <th>屋面类型</th>
+            <th>修正系数</th>
+        </thead>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ escape(item.roof_type) }}</td>
+                <td>{{ item.correction_factor }}</td>
+            </tr>
+        {% end %}
+    </table>
+</div>
