@@ -207,6 +207,18 @@ class BusinessImpositionDatabaseDetailHandler(BaseHandler):
         else:
             pass
 
+class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self, operation):
+        if operation == 'add':
+            pass
+        elif operation == 'delete':
+            pass
+        elif operation == 'update':
+            pass
+        else:
+            pass
+
 class Application(tornado.web.Application):
     def __init__(self):
         settings = dict(
@@ -237,6 +249,7 @@ class Application(tornado.web.Application):
             (r"/business/imposition/project", BusinessImpositionProjectHandler),
             (r"/business/imposition/database", BusinessImpositionDatabaseHandler),
             (r"/business/imposition/database/([^/]+)", BusinessImpositionDatabaseDetailHandler),
+            (r"/business/imposition/database/building/([^/]+)", BusinessImpositionDatabaseDetailOperationHandler),
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
 
