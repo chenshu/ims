@@ -40,9 +40,11 @@ $(document).ready(function() {
                 $(".table").styleTable();
                 $("a, input:submit", ".table").button();
                 $("input:submit", ".table").click(function(event) {
-                    var ret = validateForm($(":input"));
-                    event.preventDefault();
-                    return ret;
+                    $(this).parents("form").validate({
+                        errorPlacement: function(error, element) {
+                            error.appendTo(element.parent());
+                        }
+                    });
                 });
             },
             error: function(xhr, status, index, anchor) {
@@ -53,83 +55,6 @@ $(document).ready(function() {
     });
 
 });
-
-function validateForm(allTags) {
-    var allGood = true;
-    for (var i = 0; i < allTags.length; i++) {
-        if (!validTag(allTags[i])) {
-            allGood = false;
-            break;
-        }
-    }
-    return allGood;
-
-    function validTag(thisTag) {
-        var outClass = "";
-        var allClasses = thisTag.className.split(" ");
-        for (var j = 0; j < allClasses.length; j++) {
-            outClass += validBasedOnClass(allClasses[j]) + " ";
-        }
-        thisTag.className = outClass;
-        $(thisTag).parents("label").addClass("ui-state-error");
-        if (outClass.indexOf("invalid") > -1) {
-            invalidLabel(thisTag.parentNode);
-            thisTag.focus();
-            if (thisTag.nodeName == "INPUT") {
-                thisTag.select();
-            }
-            return false;
-        }
-        return true;
-
-        function validBasedOnClass(thisClass) {
-            var classBack = "";
-            switch(thisClass) {
-                case "":
-                case "invalid":
-                    break;
-                case "reqd":
-                    if (allGood && thisTag.value == "") {
-                        classBack = "invalid ";
-                    }
-                    classBack += thisClass;
-                    break;
-                case "radio":
-                    if (allGood && !radioPicked(thisTag.name)) {
-                        classBack = "invalid ";
-                    }
-                    classBack += thisClass;
-                    break;
-                default:
-                    classBack += thisClass;
-            }
-            return classBack;
-        }
-
-        function radioPicked(radioName) {
-            var radioSet = "";
-            for (var k = 0; k < document.forms.length; k++) {
-                if (!radioSet) {
-                    radioSet = document.forms[k][radioName];
-                }
-            }
-            if (!radioSet)
-                return false;
-            for (k = 0; k < radioSet.length; k++) {
-                if (radioSet[k].checked) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function invalidLabel(parentTag) {
-            if (parentTag.nodeName == "LABEL") {
-                parentTag.className += " invalid";
-            }
-        }
-    }
-}
 
 (function ($) {
     $.fn.styleTable = function (options) {
@@ -156,7 +81,7 @@ function validateForm(allTags) {
 
             input.find("tr").each(function () {
                 $(this).children("td:not(:first)").addClass("first");
-            $(this).children("th:not(:first)").addClass("first");
+                $(this).children("th:not(:first)").addClass("first");
             });
         });
     };

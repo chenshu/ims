@@ -1,16 +1,30 @@
 <div class="table">
     <h3>楼房屋面类型修正</h3>
+    <div id="building_roof_type_correction_add" class="add_button">
+        <a href="/business/imposition/database/building/add?t=building_roof_type_correction">添加</a>
+    </div>
+    <div id="building_roof_type_correction_add_field" style="display:none">
+        <form id="building_roof_type_correction_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_roof_type_correction">
+            <p><em>*</em>屋面类型:<input type="text" name="roof_type" value="" class="required"/></p>
+            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required"/></p>
+            <p><input type="submit" value="提交"/></p>
+        </form>
+    </div>
     <table>
         <thead>
             <th>序号</th>
             <th>屋面类型</th>
             <th>修正系数</th>
+            <th>删除</th>
         </thead>
         {% for index, item in enumerate(data) %}
             <tr>
-                <td>{{ index+1 }}</td>
+                <td><a href="/business/imposition/database/building/update?t=building_roof_type_correction">{{ index+1 }}</a></td>
                 <td>{{ escape(item.roof_type) }}</td>
                 <td>{{ item.correction_factor }}</td>
+                <td>
+                    <a href="/business/imposition/database/building/delete?t=building_roof_type_correction">删除</a>
+                </td>
             </tr>
         {% end %}
     </table>

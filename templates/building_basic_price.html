@@ -5,12 +5,12 @@
     </div>
     <div id="building_basic_price_add_field" style="display:none">
         <form id="building_basic_price_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_basic_price">
-            <p><label>产别:
-                住宅<input type="radio" name="product_type" value="residential" class="radio"/>
-                非住宅<input type="radio" name="product_type" value="nonresidential" class="radio"/></label></p>
-            <p><label>结构形式及墙体类型:<input type="text" name="product_structure" value="" class="reqd"/></label></p>
-            <p><label>基本价格:<input type="text" name="product_price" value="" class="reqd"/></label></p>
-            <p><label>结构归类:<input type="text" name="product_classify" value="" class="reqd"/></label></p>
+            <p><em>*</em>产别:
+                住宅<input type="radio" name="product_type" value="residential" class="required"/>
+                非住宅<input type="radio" name="product_type" value="nonresidential" class="required"/></p>
+            <p><em>*</em>结构形式及墙体类型:<input type="text" name="product_structure" value="" class="required"/></p>
+            <p><em>*</em>基本价格:<input type="text" name="product_price" value="" class="required"/></p>
+            <p><em>*</em>结构归类:<input type="text" name="product_classify" value="" class="required"/></p>
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>

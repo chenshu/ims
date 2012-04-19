@@ -1,16 +1,37 @@
 <div class="table">
     <h3>楼房朝向修正</h3>
+    <div id="building_towards_correction_add" class="add_button">
+        <a href="/business/imposition/database/building/add?t=building_towards_correction">添加</a>
+    </div>
+    <div id="building_towards_correction_add_field" style="display:none">
+        <form id="building_towards_correction_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_towards_correction">
+            <p><em>*</em>朝向:
+            <select name="towards" class="required">
+                <option value="" selected="selected">选择朝向</option>
+                <option value="earth">东</option>
+                <option value="south">南</option>
+                <option value="west">西</option>
+                <option value="north">北</option>
+            </select></p>
+            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required"/></p>
+            <p><input type="submit" value="提交"/></p>
+        </form>
+    </div>
     <table>
         <thead>
             <th>序号</th>
             <th>朝向</th>
             <th>修正系数</th>
+            <th>删除</th>
         </thead>
         {% for index, item in enumerate(data) %}
             <tr>
-                <td>{{ index+1 }}</td>
+                <td><a href="/business/imposition/database/building/update?t=building_towards_correction">{{ index+1 }}</a></td>
                 <td>{{ escape(item.towards) }}</td>
                 <td>{{ item.correction_factor }}</td>
+                <td>
+                    <a href="/business/imposition/database/building/delete?t=building_towards_correction">删除</a>
+                </td>
             </tr>
         {% end %}
     </table>
