@@ -39,8 +39,16 @@ $(document).ready(function() {
                 );
                 $(".table").styleTable();
                 $("a, input:submit", ".table").button();
+                var options = {
+                    success: showAdd,
+                    error: showError,
+                    dataType: 'json',
+                };
                 $("input:submit", ".table").click(function(event) {
                     $(this).parents("form").validate({
+                        submitHandler: function(form) {
+                            jQuery(form).ajaxSubmit(options);
+                        },
                         errorPlacement: function(error, element) {
                             error.appendTo(element.parent());
                         }
@@ -55,6 +63,27 @@ $(document).ready(function() {
     });
 
 });
+
+function showAdd(data) {
+    if (data.action == 'success') {
+        var tb = $('table')[0];
+        var lastRow = tb.rows.length;
+        var row = tb.insertRow(lastRow);
+        var cell = row.insertCell(0);
+        cell.innerHTML = lastRow;
+        for (i = 0; i < data.data.length; i++) {
+            var cell = row.insertCell(i + 1);
+            cell.innerHTML = data.data[i];
+        }
+        var cell = row.insertCell(data.data.length + 1);
+        alert($('table').parents("div").attr("id"));
+        cell.innerHTML = '<a href="/business/imposition/database/building/delete?t=' + $('table').parents("div").attr("id") + '">删除</a>'
+    }
+}
+
+function showError(data) {
+    alert("error");
+}
 
 (function ($) {
     $.fn.styleTable = function (options) {

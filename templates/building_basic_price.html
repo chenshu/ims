@@ -5,6 +5,7 @@
     </div>
     <div id="building_basic_price_add_field" style="display:none">
         <form id="building_basic_price_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_basic_price">
+            {{ xsrf_form_html() }}
             <p><em>*</em>产别:
                 住宅<input type="radio" name="product_type" value="residential" class="required"/>
                 非住宅<input type="radio" name="product_type" value="nonresidential" class="required"/></p>

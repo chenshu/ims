@@ -186,18 +186,18 @@ class BusinessImpositionDatabaseHandler(BaseHandler):
 class BusinessImpositionDatabaseDetailHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, datatype):
+        table = self.get_argument("t", None)
+        if table is None or table not in ( \
+                'building_basic_price', \
+                'building_towards_correction', \
+                'building_roof_type_correction', \
+                'building_additional_price', \
+                'building_volume_ratio', \
+                'building_floor_correction'):
+            raise tornado.web.HTTPError(400)
         if datatype == 'bungalow':
             pass
         elif datatype == 'building':
-            table = self.get_argument("t", None)
-            if table is None or table not in ( \
-                    'building_basic_price', \
-                    'building_towards_correction', \
-                    'building_roof_type_correction', \
-                    'building_additional_price', \
-                    'building_volume_ratio', \
-                    'building_floor_correction'):
-                raise tornado.web.HTTPError(400)
             data = self.db.query("SELECT * FROM %s" % (table))
             self.render("%s.html" % (table), data=data)
         elif datatype == 'tree':
@@ -209,8 +209,36 @@ class BusinessImpositionDatabaseDetailHandler(BaseHandler):
 
 class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
     @tornado.web.authenticated
-    def get(self, operation):
+    def post(self, operation):
+        table = self.get_argument("t", None)
+        if table is None or table not in ( \
+                'building_basic_price', \
+                'building_towards_correction', \
+                'building_roof_type_correction', \
+                'building_additional_price', \
+                'building_volume_ratio', \
+                'building_floor_correction'):
+            raise tornado.web.HTTPError(400)
         if operation == 'add':
+            if table == 'building_basic_price':
+                product_type = self.get_argument('product_type', None)
+                product_structure = self.get_argument('product_structure', None)
+                product_price = self.get_argument('product_price', None)
+                product_classify = self.get_argument('product_classify', None)
+                if product_type == 'residential':
+                    product_type = u'住宅'
+                elif product_type == 'nonresidential':
+                    product_type = u'非住宅'
+                else:
+                    product_type = None
+                if product_type is None or \
+                        product_structure is None or \
+                        product_price is None or \
+                        product_classify is None:
+                    raise tornado.web.HTTPError(400)
+                sql = "INSERT INTO building_basic_price (product_type, product_structure, product_price, product_classify) values (%s, %s, %s, %s)"
+                self.db.execute(sql, product_type, product_structure, float(product_price), product_classify)
+                self.write(json_encode({'action' : 'success', 'data' : [product_type, product_structure, product_price, product_classify]}))
             pass
         elif operation == 'delete':
             pass
