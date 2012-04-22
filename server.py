@@ -236,15 +236,35 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                         product_price is None or \
                         product_classify is None:
                     raise tornado.web.HTTPError(400)
-                sql = "INSERT INTO building_basic_price (product_type, product_structure, product_price, product_classify) values (%s, %s, %s, %s)"
+                sql = "INSERT INTO building_basic_price (product_type, product_structure, product_price, product_classify) VALUES (%s, %s, %s, %s)"
                 self.db.execute(sql, product_type, product_structure, float(product_price), product_classify)
                 self.write(json_encode({'action' : 'success', 'data' : [product_type, product_structure, product_price, product_classify]}))
-            pass
-        elif operation == 'delete':
             pass
         elif operation == 'update':
             pass
         else:
+            pass
+    def get(self, operation):
+        table = self.get_argument("t", None)
+        if table is None or table not in ( \
+                'building_basic_price', \
+                'building_towards_correction', \
+                'building_roof_type_correction', \
+                'building_additional_price', \
+                'building_volume_ratio', \
+                'building_floor_correction'):
+            raise tornado.web.HTTPError(400)
+        if operation == 'delete':
+            if table == 'building_basic_price':
+                item_id = self.get_argument('id', None)
+                if item_id is not None:
+                    print 'xxx'
+                    sql = "DELETE FROM building_basic_price WHERE id = %s"
+                    self.db.execute(sql, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                    return
+                self.write(json_encode({'action' : 'failure'}))
+                return
             pass
 
 class Application(tornado.web.Application):

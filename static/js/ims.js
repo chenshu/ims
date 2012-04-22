@@ -54,6 +54,17 @@ $(document).ready(function() {
                         }
                     });
                 });
+                $(".del_button").click(function(event) {
+                    event.preventDefault();
+                    $.getJSON(this.href, {}, function(response) {
+                        if (response.action == 'success') {
+                            $("#bodyText").append("delete success");
+                            $("#bodyText").dialog("open");
+                            //$("#bodyText").show("slow", {}, 500, callback);
+                            //$("#bodyText").effect("highlight", {}, 2000);
+                        }
+                    });
+                });
             },
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(
@@ -66,24 +77,50 @@ $(document).ready(function() {
 
 function showAdd(data) {
     if (data.action == 'success') {
+        $('table:first tbody>tr:last').clone(true).insertAfter('table:first tbody>tr:last');
+        var rows_length = $('table:first tbody>tr').length
+        var cells_length = $('table:first tbody>tr:last td').length;
+        alert($('table:first tbody>tr:last td:first').text());
+        $('table:first tbody>tr:last td:first').html(rows_length);
+        alert($('table:first tbody>tr:last td:last').text());
+        alert($('table:first tbody>tr:last td:last').html());
+        alert($('table:first tbody>tr:last td:last').val());
+        $('table:first tbody>tr:last td:nth-child(1)').val(rows_length);
+        for (i = 0; i < data.data.length; i++) {
+            $('table:first tbody>tr:last td:(' + (i+2) + ')').html(data.data[i]);
+        }
+        $('table:first tbody>tr:last td:last').html('<a href="/business/imposition/database/building/delete?t=' + $('table').parents("div").attr("id") + '">删除</a>');
+        /*
         var tb = $('table')[0];
         var lastRow = tb.rows.length;
-        var row = tb.insertRow(lastRow);
-        var cell = row.insertCell(0);
-        cell.innerHTML = lastRow;
+        //var row = tb.insertRow(lastRow);
+        var class_first = $('td:first').attr("class");
+        var class_last = $('td:last').attr("class");
+        var s = '<tr><td>' + lastRow + '</td>';
         for (i = 0; i < data.data.length; i++) {
-            var cell = row.insertCell(i + 1);
-            cell.innerHTML = data.data[i];
+            s += '<td>' + data.data[i] + '</td>';
         }
-        var cell = row.insertCell(data.data.length + 1);
-        alert($('table').parents("div").attr("id"));
-        cell.innerHTML = '<a href="/business/imposition/database/building/delete?t=' + $('table').parents("div").attr("id") + '">删除</a>'
+        s += '<td><a href="/business/imposition/database/building/delete?t=' + $('table').parents("div").attr("id") + '">删除</a>';
+        //$('table:first tbody>tr:last').after(s);
+        $('table:first tbody>tr:last').clone(true).insertAfter('table:first tbody>tr:last');
+        //$('table:first tbody>tr:last td:first').addClass(class_first);
+        //$('table:first tbody>tr:last td:not:first').addClass(class_last);
+        //$("table:first tbody>tr:last").each(function() {this.reset();});
+        */
     }
 }
 
 function showError(data) {
-    alert("error");
+    $("#bodyText").append("error");
+    $("#bodyText").show("slow", {}, 500, callback);
+    $("#bodyText").effect("highlight", {}, 2000);
 }
+
+function callback() {
+    setTimeout(function() {
+        $("#bodyText").hide();
+    }, 5000);
+};
 
 (function ($) {
     $.fn.styleTable = function (options) {

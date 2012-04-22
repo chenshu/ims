@@ -3,6 +3,7 @@
     <div id="building_basic_price_add" class="add_button">
         <a href="/business/imposition/database/building/add?t=building_basic_price">添加</a>
     </div>
+    <div id="bodyText" style="display:none"></div>
     <div id="building_basic_price_add_field" style="display:none">
         <form id="building_basic_price_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_basic_price">
             {{ xsrf_form_html() }}
@@ -24,17 +25,19 @@
             <th>结构归类</th>
             <th>删除</th>
         </thead>
-        {% for index, item in enumerate(data) %}
-            <tr>
-                <td><a href="/business/imposition/database/building/update?t=building_basic_price">{{ index+1 }}</a></td>
-                <td>{{ escape(item.product_type) }}</td>
-                <td>{{ escape(item.product_structure) }}</td>
-                <td>{{ item.product_price }}</td>
-                <td>{{ escape(item.product_classify) }}</td>
-                <td>
-                    <a href="/business/imposition/database/building/delete?t=building_basic_price">删除</a>
-                </td>
-            </tr>
-        {% end %}
+        <tbody>
+            {% for index, item in enumerate(data) %}
+                <tr>
+                    <td><a href="/business/imposition/database/building/update?t=building_basic_price" class="show_button">{{ index+1 }}</a></td>
+                    <td>{{ escape(item.product_type) }}</td>
+                    <td>{{ escape(item.product_structure) }}</td>
+                    <td>{{ item.product_price }}</td>
+                    <td>{{ escape(item.product_classify) }}</td>
+                    <td>
+                        <a href="/business/imposition/database/building/delete?t=building_basic_price&id={{ item.id }}" class="del_button">删除</a>
+                    </td>
+                </tr>
+            {% end %}
+        </tbody>
     </table>
 </div>
