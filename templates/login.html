@@ -25,7 +25,11 @@
             <p class="error">{{ escape(error) }}</p>
           {% end %}
         {% end %}
+        {% if request.query %}
+        <form action="{{ _('/auth/login?%(query)s') % {'query': request.query} }}" method="post">
+        {% else %}
         <form action="/auth/login" method="post">
+        {% end %}
           {{ xsrf_form_html() }}
           Username: <input type="text" name="username" value="{{ escape(username) }}"><br />
           Password: <input type="password" name="password"><br />
