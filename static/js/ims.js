@@ -1,5 +1,6 @@
+var oTable;
 $(document).ready(function() {
-    $("#menu").accordion({
+    $(".menu").accordion({
         animated: "slide",
         autoHeight: false,
         header: ".menuLink",
@@ -14,7 +15,6 @@ $(document).ready(function() {
         $(".tabs").hide();
         var anchor = $("#" + $(this).attr("id").split('_')[0] + "_tabs");
         anchor.show("slow");
-        //anchor.effect("highlight", {}, 2000);
         event.preventDefault();
         return false;
     });
@@ -37,14 +37,24 @@ $(document).ready(function() {
                         return false;
                     }
                 );
-                $(".table").styleTable();
-                $("a, input:submit", ".table").button();
+                //$(".table_data").styleTable();
+                $("a", ".add_button").button();
+                $("a", ".del_button").button();
+                $('.table tbody tr').click(function(e) {
+                    if ($(this).hasClass('row_selected')) {
+                        $(this).removeClass('row_selected');
+                    }
+                    else {
+                        oTable.$('tr.row_selected').removeClass('row_selected');
+                        $(this).addClass('row_selected');
+                    }
+                });
                 var options = {
-                    success: showAdd,
+                    success: fnClickAddRow,
                     error: showError,
                     dataType: 'json',
                 };
-                $("input:submit", ".table").click(function(event) {
+                $("input:submit", ".add_form").click(function(event) {
                     $(this).parents("form").validate({
                         submitHandler: function(form) {
                             jQuery(form).ajaxSubmit(options);
@@ -55,16 +65,49 @@ $(document).ready(function() {
                     });
                 });
                 $(".del_button").click(function(event) {
+                    var anSelected = fnGetSelected(oTable);
+                    if (anSelected.length !== 0) {
+                        $.getJSON($(this).find("a").attr("href") + "&id=" + anSelected[0].id, {}, function(response) {
+                            if (response.action == 'success') {
+                                oTable.fnDeleteRow(anSelected[0]);
+                                $("#bodyText").append("delete success");
+                                $("#bodyText").show("slow", {}, 500, callback);
+                                $("#bodyText").effect("highlight", {}, 2000);
+                            }
+                        });
+                    }
                     event.preventDefault();
-                    $.getJSON(this.href, {}, function(response) {
-                        if (response.action == 'success') {
-                            $("#bodyText").append("delete success");
-                            $("#bodyText").dialog("open");
-                            //$("#bodyText").show("slow", {}, 500, callback);
-                            //$("#bodyText").effect("highlight", {}, 2000);
-                        }
-                    });
+                    return false;
                 });
+                oTable = $(".table").dataTable({
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "oLanguage": {
+                    "sLengthMenu": "Display _MENU_ records per page",
+                    "sZeroRecords": "Nothing found - sorry",
+                    "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+                    "sInfoEmpty": "Showing 0 to 0 of 0 records",
+                    "sInfoFiltered": "(filtered from _MAX_ total records)"
+                    },
+                    "fnDrawCallback": function(oSettings) {
+                        if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
+                            for (var i=0, iLen=oSettings.aiDisplay.length; i<iLen; i++) {
+                                $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr).html(i+1);
+                            }
+                        }
+                    },
+                    "aoColumnDefs": [
+                        {"bSortable": false, "aTargets": [ 0 ]}
+                    ],
+                    "aaSorting": [[ 1, 'asc' ]],
+                });
+                oTable.fnSetColumnVis(1, false);
             },
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(
@@ -75,39 +118,29 @@ $(document).ready(function() {
 
 });
 
-function showAdd(data) {
+function fnClickAddRow(data) {
     if (data.action == 'success') {
-        $('table:first tbody>tr:last').clone(true).insertAfter('table:first tbody>tr:last');
-        var rows_length = $('table:first tbody>tr').length
-        var cells_length = $('table:first tbody>tr:last td').length;
-        alert($('table:first tbody>tr:last td:first').text());
-        $('table:first tbody>tr:last td:first').html(rows_length);
-        alert($('table:first tbody>tr:last td:last').text());
-        alert($('table:first tbody>tr:last td:last').html());
-        alert($('table:first tbody>tr:last td:last').val());
-        $('table:first tbody>tr:last td:nth-child(1)').val(rows_length);
+        var content = new Array();
+        content[0] = "";
         for (i = 0; i < data.data.length; i++) {
-            $('table:first tbody>tr:last td:(' + (i+2) + ')').html(data.data[i]);
+            content[i+1] = data.data[i];
         }
-        $('table:first tbody>tr:last td:last').html('<a href="/business/imposition/database/building/delete?t=' + $('table').parents("div").attr("id") + '">删除</a>');
-        /*
-        var tb = $('table')[0];
-        var lastRow = tb.rows.length;
-        //var row = tb.insertRow(lastRow);
-        var class_first = $('td:first').attr("class");
-        var class_last = $('td:last').attr("class");
-        var s = '<tr><td>' + lastRow + '</td>';
-        for (i = 0; i < data.data.length; i++) {
-            s += '<td>' + data.data[i] + '</td>';
-        }
-        s += '<td><a href="/business/imposition/database/building/delete?t=' + $('table').parents("div").attr("id") + '">删除</a>';
-        //$('table:first tbody>tr:last').after(s);
-        $('table:first tbody>tr:last').clone(true).insertAfter('table:first tbody>tr:last');
-        //$('table:first tbody>tr:last td:first').addClass(class_first);
-        //$('table:first tbody>tr:last td:not:first').addClass(class_last);
-        //$("table:first tbody>tr:last").each(function() {this.reset();});
-        */
+        $('.table').dataTable().fnAddData(content);
+        $('.table tbody tr:last').attr("id", data.data[0]);
+        $('.table tbody tr:last').click(function(e) {
+            if ($(this).hasClass('row_selected')) {
+                $(this).removeClass('row_selected');
+            }
+            else {
+                oTable.$('tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+            }
+        });
     }
+}
+
+function fnGetSelected(oTableLocal) {
+    return oTableLocal.$('tr.row_selected');
 }
 
 function showError(data) {
@@ -122,6 +155,7 @@ function callback() {
     }, 5000);
 };
 
+/*
 (function ($) {
     $.fn.styleTable = function (options) {
         var defaults = {
@@ -152,3 +186,4 @@ function callback() {
         });
     };
 })(jQuery);
+*/

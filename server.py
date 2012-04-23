@@ -237,11 +237,12 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                         product_classify is None:
                     raise tornado.web.HTTPError(400)
                 sql = "INSERT INTO building_basic_price (product_type, product_structure, product_price, product_classify) VALUES (%s, %s, %s, %s)"
-                self.db.execute(sql, product_type, product_structure, float(product_price), product_classify)
-                self.write(json_encode({'action' : 'success', 'data' : [product_type, product_structure, product_price, product_classify]}))
+                lastid = self.db.execute(sql, product_type, product_structure, float(product_price), product_classify)
+                self.write(json_encode({'action' : 'success', 'data' : [lastid, product_type, product_structure, product_price, product_classify]}))
             pass
         elif operation == 'update':
-            pass
+            print self.request.arguments
+            self.write(json_encode({'action' : 'success'}))
         else:
             pass
     def get(self, operation):
@@ -258,7 +259,6 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
             if table == 'building_basic_price':
                 item_id = self.get_argument('id', None)
                 if item_id is not None:
-                    print 'xxx'
                     sql = "DELETE FROM building_basic_price WHERE id = %s"
                     self.db.execute(sql, item_id)
                     self.write(json_encode({'action' : 'success'}))

@@ -1,43 +1,48 @@
-<div id="building_basic_price" class="table">
+<div id="building_basic_price">
     <h3>楼房数据基本价格</h3>
     <div id="building_basic_price_add" class="add_button">
         <a href="/business/imposition/database/building/add?t=building_basic_price">添加</a>
     </div>
     <div id="bodyText" style="display:none"></div>
-    <div id="building_basic_price_add_field" style="display:none">
+    <div id="building_basic_price_add_field" class="add_field" style="display:none">
         <form id="building_basic_price_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_basic_price">
             {{ xsrf_form_html() }}
             <p><em>*</em>产别:
                 住宅<input type="radio" name="product_type" value="residential" class="required"/>
                 非住宅<input type="radio" name="product_type" value="nonresidential" class="required"/></p>
             <p><em>*</em>结构形式及墙体类型:<input type="text" name="product_structure" value="" class="required"/></p>
-            <p><em>*</em>基本价格:<input type="text" name="product_price" value="" class="required"/></p>
+            <p><em>*</em>基本价格:<input type="text" name="product_price" value="" class="required number"/></p>
             <p><em>*</em>结构归类:<input type="text" name="product_classify" value="" class="required"/></p>
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>
-    <table>
-        <thead>
-            <th>序号</th>
-            <th>产别</th>
-            <th>结构形式及墙体类型</th>
-            <th>基本价格</th>
-            <th>结构归类</th>
-            <th>删除</th>
-        </thead>
-        <tbody>
-            {% for index, item in enumerate(data) %}
+    <div id="building_basic_price_del" class="del_button">
+        <a href="/business/imposition/database/building/delete?t=building_basic_price">删除</a>
+    </div>
+    <div class="table_data">
+        <table cellpadding="0" cellspacing="0" border="0" class="table display">
+            <thead>
                 <tr>
-                    <td><a href="/business/imposition/database/building/update?t=building_basic_price" class="show_button">{{ index+1 }}</a></td>
-                    <td>{{ escape(item.product_type) }}</td>
-                    <td>{{ escape(item.product_structure) }}</td>
-                    <td>{{ item.product_price }}</td>
-                    <td>{{ escape(item.product_classify) }}</td>
-                    <td>
-                        <a href="/business/imposition/database/building/delete?t=building_basic_price&id={{ item.id }}" class="del_button">删除</a>
-                    </td>
+                    <th>序号</th>
+                    <th>id</th>
+                    <th>产别</th>
+                    <th>结构形式及墙体类型</th>
+                    <th>基本价格</th>
+                    <th>结构归类</th>
                 </tr>
-            {% end %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for index, item in enumerate(data) %}
+                    <tr id="{{ item.id }}">
+                        <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ escape(item.product_type) }}</td>
+                        <td>{{ escape(item.product_structure) }}</td>
+                        <td>{{ item.product_price }}</td>
+                        <td>{{ escape(item.product_classify) }}</td>
+                    </tr>
+                {% end %}
+            </tbody>
+        </table>
+    </div>
 </div>
