@@ -38,22 +38,32 @@ $(document).ready(function() {
                     }
                 );
                 //$(".table_data").styleTable();
-                $("a", ".add_button").button();
-                $("a", ".del_button").button();
-                $('.table tbody tr').click(function(e) {
-                    if ($(this).hasClass('row_selected')) {
-                        $(this).removeClass('row_selected');
-                    }
-                    else {
-                        oTable.$('tr.row_selected').removeClass('row_selected');
-                        $(this).addClass('row_selected');
-                    }
-                });
+                //$("a", ".add_button").button();
+                //$("a", ".del_button").button();
+                /*
+                *$('.table tbody tr').click(function(e) {
+                *    if ($(this).hasClass('row_selected')) {
+                *        $(this).removeClass('row_selected');
+                *    }
+                *    else {
+                *        oTable.$('tr.row_selected').removeClass('row_selected');
+                *        $(this).addClass('row_selected');
+                *    }
+                *});
+                */
                 var options = {
                     success: fnClickAddRow,
                     error: showError,
                     dataType: 'json',
                 };
+                $("#formAddNewRow").validate({
+                    submitHandler: function(form) {
+                        jQuery(form).ajaxSubmit(options);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.appendTo(element.parent());
+                    }
+                });
                 $("input:submit", ".add_form").click(function(event) {
                     $(this).parents("form").validate({
                         submitHandler: function(form) {
@@ -70,9 +80,6 @@ $(document).ready(function() {
                         $.getJSON($(this).find("a").attr("href") + "&id=" + anSelected[0].id, {}, function(response) {
                             if (response.action == 'success') {
                                 oTable.fnDeleteRow(anSelected[0]);
-                                $("#bodyText").append("delete success");
-                                $("#bodyText").show("slow", {}, 500, callback);
-                                $("#bodyText").effect("highlight", {}, 2000);
                             }
                         });
                     }
@@ -86,14 +93,14 @@ $(document).ready(function() {
                     "bLengthChange": true,
                     "bFilter": true,
                     "bSort": true,
-                    "bInfo": false,
-                    "bAutoWidth": false,
+                    "bInfo": true,
+                    "bAutoWidth": true,
                     "oLanguage": {
-                    "sLengthMenu": "Display _MENU_ records per page",
-                    "sZeroRecords": "Nothing found - sorry",
-                    "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
-                    "sInfoEmpty": "Showing 0 to 0 of 0 records",
-                    "sInfoFiltered": "(filtered from _MAX_ total records)"
+                        "sLengthMenu": "Display _MENU_ records per page",
+                        "sZeroRecords": "Nothing found - sorry",
+                        "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+                        "sInfoEmpty": "Showing 0 to 0 of 0 records",
+                        "sInfoFiltered": "(filtered from _MAX_ total records)"
                     },
                     "fnDrawCallback": function(oSettings) {
                         if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
@@ -108,6 +115,55 @@ $(document).ready(function() {
                     "aaSorting": [[ 1, 'asc' ]],
                 });
                 oTable.fnSetColumnVis(1, false);
+                var add_url = $(".add_button > a").attr("href");
+                var delete_url = $(".del_button > a").attr("href");
+                oTable.makeEditable({
+                    sAddURL:add_url,
+                    sDeleteURL: delete_url,
+                    "aoColumns": [
+                        null,
+                        {
+                            indicator: 'Saving...',
+                            tooltip: 'Click to select',
+                            loadtext: 'loading...',
+                            type: 'select',
+                            onblur: 'cancel',
+                            submit: 'OK',
+                            data: "{'residential':'住宅', 'nonresidential':'非住宅'}",
+                            column: 'product_type',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_basic_price"
+                        },
+                        {}, 
+                        {},
+                        {},
+                    ],
+                    oAddNewRowButtonOptions: { 
+                        label: "添加...",
+                        icons: { primary: 'ui-icon-plus' }
+                    },
+                    oDeleteRowButtonOptions: {
+                        label: "删除",
+                        icons: { primary: 'ui-icon-trash' }
+                    },
+                    oAddNewRowOkButtonOptions: {
+                        label: "确定",
+                        icons: { primary: 'ui-icon-check' },
+                        name: "action",
+                        value: "add-new"
+                    },
+                    oAddNewRowCancelButtonOptions: { 
+                        label: "取消",
+                        class: "back-class",
+                        name: "action",
+                        value: "cancel-add",
+                        icons: { primary: 'ui-icon-close' }
+                    },
+                    oAddNewRowFormOptions: {
+                        title: '新增',
+                        show: "blind",
+                        hide: "explode"
+                    },
+                });
             },
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(
@@ -127,15 +183,17 @@ function fnClickAddRow(data) {
         }
         $('.table').dataTable().fnAddData(content);
         $('.table tbody tr:last').attr("id", data.data[0]);
-        $('.table tbody tr:last').click(function(e) {
-            if ($(this).hasClass('row_selected')) {
-                $(this).removeClass('row_selected');
-            }
-            else {
-                oTable.$('tr.row_selected').removeClass('row_selected');
-                $(this).addClass('row_selected');
-            }
-        });
+        /*
+        *$('.table tbody tr:last').click(function(e) {
+        *    if ($(this).hasClass('row_selected')) {
+        *        $(this).removeClass('row_selected');
+        *    }
+        *    else {
+        *        oTable.$('tr.row_selected').removeClass('row_selected');
+        *        $(this).addClass('row_selected');
+        *    }
+        *});
+        */
     }
 }
 
@@ -144,9 +202,7 @@ function fnGetSelected(oTableLocal) {
 }
 
 function showError(data) {
-    $("#bodyText").append("error");
-    $("#bodyText").show("slow", {}, 500, callback);
-    $("#bodyText").effect("highlight", {}, 2000);
+    alert(data);
 }
 
 function callback() {

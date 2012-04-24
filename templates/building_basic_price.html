@@ -1,9 +1,43 @@
-<div id="building_basic_price">
+<div id="building_basic_price" class="container">
     <h3>楼房数据基本价格</h3>
-    <div id="building_basic_price_add" class="add_button">
+    <div id="building_basic_price_add" class="add_button" style="display:none">
         <a href="/business/imposition/database/building/add?t=building_basic_price">添加</a>
     </div>
     <div id="bodyText" style="display:none"></div>
+    <div>
+    <form id="formAddNewRow" class="add_form" action="#" title="Add new record">
+        <span style="display:none">
+        <label for="index">Index:</label><br/>
+        <input type="hidden" name="index" value="" rel="0"/>
+        </span>
+        <span style="display:none">
+        <label for="product_id">Product ID:</label><br/>
+        <input type="hidden" name="product_id" value="" rel="1"/>
+        </span>
+        <span>
+        <label for="product_type">产别:</label><br />
+        <input type="radio" name="product_type" value="residential" class="required" rel="2"/>住宅
+        <input type="radio" name="product_type" value="nonresidential" class="required" rel="2"/>非住宅
+        </span>
+        <br />
+        <span>
+        <label for="product_structure">结构形式及墙体类型:</label><br />
+        <input type="text" name="product_structure" value="" class="required" rel="3"/>
+        </span>
+        <br />
+        <span>
+        <label for="product_price">基本价格:</label><br />
+        <input type="text" name="product_price" value="" class="required number" rel="4"/>
+        </span>
+        <br />
+        <span>
+        <label for="product_classify">结构归类:</label><br />
+        <input type="text" name="product_classify" value="" class="required" rel="5"/>
+        </span>
+        <br />
+    </form>
+    </div>
+    <!--
     <div id="building_basic_price_add_field" class="add_field" style="display:none">
         <form id="building_basic_price_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_basic_price">
             {{ xsrf_form_html() }}
@@ -16,9 +50,11 @@
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>
-    <div id="building_basic_price_del" class="del_button">
+    -->
+    <div id="building_basic_price_del" class="del_button" style="display:none">
         <a href="/business/imposition/database/building/delete?t=building_basic_price">删除</a>
     </div>
+    <div class="add_delete_toolbar" />
     <div class="table_data">
         <table cellpadding="0" cellspacing="0" border="0" class="table display">
             <thead>

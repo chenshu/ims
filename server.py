@@ -241,21 +241,19 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                 self.write(json_encode({'action' : 'success', 'data' : [lastid, product_type, product_structure, product_price, product_classify]}))
             pass
         elif operation == 'update':
-            print self.request.arguments
-            self.write(json_encode({'action' : 'success'}))
-        else:
-            pass
-    def get(self, operation):
-        table = self.get_argument("t", None)
-        if table is None or table not in ( \
-                'building_basic_price', \
-                'building_towards_correction', \
-                'building_roof_type_correction', \
-                'building_additional_price', \
-                'building_volume_ratio', \
-                'building_floor_correction'):
-            raise tornado.web.HTTPError(400)
-        if operation == 'delete':
+            if table == 'building_basic_price':
+                item_id = self.get_argument('id', None)
+                column = self.get_argument('column', None)
+                value = self.get_argument('value', None)
+                if column == 'product_type' and (value == 'residential' or value == 'nonresidential'):
+                    if value == 'residential':
+                        value = u'住宅'
+                    elif value == 'nonresidential':
+                        value = u'非住宅'
+                    sql = "UPDATE building_basic_price SET product_type = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+        elif operation == 'delete':
             if table == 'building_basic_price':
                 item_id = self.get_argument('id', None)
                 if item_id is not None:
@@ -265,6 +263,7 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                     return
                 self.write(json_encode({'action' : 'failure'}))
                 return
+        else:
             pass
 
 class Application(tornado.web.Application):
