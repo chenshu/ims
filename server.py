@@ -253,6 +253,10 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                     sql = "UPDATE building_basic_price SET product_type = %s where id = %s"
                     self.db.execute(sql, value, item_id)
                     self.write(json_encode({'action' : 'success'}))
+                elif column in ('product_structure', 'product_price', 'product_classify'):
+                    sql = "UPDATE building_basic_price SET " + column + " = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
         elif operation == 'delete':
             if table == 'building_basic_price':
                 item_id = self.get_argument('id', None)

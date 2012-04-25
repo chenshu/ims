@@ -147,8 +147,8 @@
                 "callback": function (sValue, settings) {
                     properties.fnEndProcessingMode();
                     var status = "";
-                    alert('xxx');
-                    if (sNewCellValue == sValue) {
+                    //if (sNewCellValue == sValue) {
+                    if (sValue == 'success') {
                         var aPos = oTable.fnGetPosition(this);
                         oTable.fnUpdate(sNewCellDisplayValue, aPos[0], aPos[2]);
                         status = "success";
@@ -268,7 +268,7 @@
                     $.ajax({ 'url': properties.sAddURL,
                         'data': params,
                         'type': properties.sAddHttpMethod,
-                        "dataType": "json",
+                        'dataType': 'json',
                         success: _fnOnRowAdded,
                         error: function (response) {
                             properties.fnEndProcessingMode();
@@ -385,9 +385,9 @@
             $.ajax({ 'url': sURL,
                 'type': properties.sDeleteHttpMethod,
                 'data': data,
-                "success": _fnOnRowDeleted,
-                "dataType": "json",
-                "error": function (response) {
+                'success': _fnOnRowDeleted,
+                'dataType': 'json',
+                'error': function (response) {
                     properties.fnEndProcessingMode();
                     properties.fnShowError(response.responseText, "delete");
                     properties.fnOnDeleted("failure");

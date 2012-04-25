@@ -333,11 +333,14 @@
                               var ajaxoptions = {
                                   type    : 'POST',
                                   data    : submitdata,
+                                  dataType: 'json',
                                   url     : settings.target,
-                                  success : function(result, status) {
-                                      $(self).html(result);
+                                  //success : function(result, status) {
+                                  success : function(result) {
+                                      //$(self).html(result);
                                       self.editing = false;
-                                      callback.apply(self, [self.innerHTML, settings]);
+                                      //callback.apply(self, [self.innerHTML, settings]);
+                                      callback.apply(self, [result.action, settings]);
                                       if (!$.trim($(self).html())) {
                                           $(self).html(settings.placeholder);
                                       }

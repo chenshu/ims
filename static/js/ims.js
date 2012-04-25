@@ -123,6 +123,7 @@ $(document).ready(function() {
                     "aoColumns": [
                         null,
                         {
+                            cssclass: 'required',
                             indicator: 'Saving...',
                             tooltip: 'Click to select',
                             loadtext: 'loading...',
@@ -133,9 +134,33 @@ $(document).ready(function() {
                             column: 'product_type',
                             sUpdateURL: "/business/imposition/database/building/update?t=building_basic_price"
                         },
-                        {}, 
-                        {},
-                        {},
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'product_structure',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_basic_price"
+                        },
+                        {
+                            cssclass: 'required, number',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'product_price',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_basic_price"
+                        },
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'product_classify',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_basic_price"
+                        },
                     ],
                     oAddNewRowButtonOptions: { 
                         label: "添加...",
