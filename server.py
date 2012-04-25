@@ -239,7 +239,62 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                 sql = "INSERT INTO building_basic_price (product_type, product_structure, product_price, product_classify) VALUES (%s, %s, %s, %s)"
                 lastid = self.db.execute(sql, product_type, product_structure, float(product_price), product_classify)
                 self.write(json_encode({'action' : 'success', 'data' : [lastid, product_type, product_structure, product_price, product_classify]}))
-            pass
+            elif table == 'building_towards_correction':
+                towards = self.get_argument('towards', None)
+                correction_factor = self.get_argument('correction_factor', None)
+                if towards == 'east':
+                    towards = u'东'
+                elif towards == 'south':
+                    towards = u'南'
+                elif towards == 'west':
+                    towards = u'西'
+                elif towards == 'north':
+                    towards = u'北'
+                else:
+                    towards = None
+                if towards is None or \
+                        correction_factor is None:
+                    raise tornado.web.HTTPError(400)
+                sql = "INSERT INTO building_towards_correction (towards, correction_factor) VALUES (%s, %s)"
+                lastid = self.db.execute(sql, towards, float(correction_factor))
+                self.write(json_encode({'action' : 'success', 'data' : [lastid, towards, correction_factor]}))
+            elif table == 'building_roof_type_correction':
+                roof_type = self.get_argument('roof_type', None)
+                correction_factor = self.get_argument('correction_factor', None)
+                if roof_type is None or \
+                        correction_factor is None:
+                    raise tornado.web.HTTPError(400)
+                sql = "INSERT INTO building_roof_type_correction (roof_type, correction_factor) VALUES (%s, %s)"
+                lastid = self.db.execute(sql, roof_type, float(correction_factor))
+                self.write(json_encode({'action' : 'success', 'data' : [lastid, roof_type, correction_factor]}))
+            elif table == 'building_additional_price':
+                additional = self.get_argument('additional', None)
+                price = self.get_argument('price', None)
+                if additional is None or \
+                        price is None:
+                    raise tornado.web.HTTPError(400)
+                sql = "INSERT INTO building_additional_price (additional, price) VALUES (%s, %s)"
+                lastid = self.db.execute(sql, additional, float(price))
+                self.write(json_encode({'action' : 'success', 'data' : [lastid, additional, price]}))
+            elif table == 'building_volume_ratio':
+                volume = self.get_argument('volume', None)
+                correction_factor = self.get_argument('correction_factor', None)
+                product_type = self.get_argument('product_type', None)
+                if product_type == 'residential':
+                    product_type = u'住宅'
+                elif product_type == 'nonresidential':
+                    product_type = u'非住宅'
+                else:
+                    product_type = None
+                if volume is None or \
+                        correction_factor is None or \
+                        product_type is None:
+                    raise tornado.web.HTTPError(400)
+                sql = "INSERT INTO building_volume_ratio (volume, correction_factor, product_type) VALUES (%s, %s, %s)"
+                lastid = self.db.execute(sql, volume, float(correction_factor), product_type)
+                self.write(json_encode({'action' : 'success', 'data' : [lastid, volume, correction_factor, product_type]}))
+            else:
+                raise tornado.web.HTTPError(400)
         elif operation == 'update':
             if table == 'building_basic_price':
                 item_id = self.get_argument('id', None)
@@ -257,6 +312,70 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                     sql = "UPDATE building_basic_price SET " + column + " = %s where id = %s"
                     self.db.execute(sql, value, item_id)
                     self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table =='building_towards_correction':
+                item_id = self.get_argument('id', None)
+                column = self.get_argument('column', None)
+                value = self.get_argument('value', None)
+                if column == 'towards' and (value == 'east' or value == 'south' or value == 'west' or value == 'north'):
+                    if value == 'east':
+                        value = u'东'
+                    elif value == 'south':
+                        value = u'南'
+                    elif value == 'west':
+                        value = u'西'
+                    elif value == 'north':
+                        value = u'北'
+                    sql = "UPDATE building_towards_correction SET towards = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                elif column in ('correction_factor'):
+                    sql = "UPDATE building_towards_correction SET " + column + " = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table == 'building_roof_type_correction':
+                item_id = self.get_argument('id', None)
+                column = self.get_argument('column', None)
+                value = self.get_argument('value', None)
+                if column in ('roof_type', 'correction_factor'):
+                    sql = "UPDATE building_roof_type_correction SET " + column + " = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table == 'building_additional_price':
+                item_id = self.get_argument('id', None)
+                column = self.get_argument('column', None)
+                value = self.get_argument('value', None)
+                if column in ('additional', 'price'):
+                    sql = "UPDATE building_additional_price SET " + column + " = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table == 'building_volume_ratio':
+                item_id = self.get_argument('id', None)
+                column = self.get_argument('column', None)
+                value = self.get_argument('value', None)
+                if column == 'product_type' and (value == 'residential' or value == 'nonresidential'):
+                    if value == 'residential':
+                        value = u'住宅'
+                    elif value == 'nonresidential':
+                        value = u'非住宅'
+                    sql = "UPDATE building_volume_ratio SET product_type = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                elif column in ('volume', 'correction_factor'):
+                    sql = "UPDATE building_volume_ratio SET " + column + " = %s where id = %s"
+                    self.db.execute(sql, value, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            else:
+                raise tornado.web.HTTPError(400)
         elif operation == 'delete':
             if table == 'building_basic_price':
                 item_id = self.get_argument('id', None)
@@ -264,11 +383,44 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                     sql = "DELETE FROM building_basic_price WHERE id = %s"
                     self.db.execute(sql, item_id)
                     self.write(json_encode({'action' : 'success'}))
-                    return
-                self.write(json_encode({'action' : 'failure'}))
-                return
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table == 'building_towards_correction':
+                item_id = self.get_argument('id', None)
+                if item_id is not None:
+                    sql = "DELETE FROM building_towards_correction WHERE id = %s"
+                    self.db.execute(sql, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table == 'building_roof_type_correction':
+                item_id = self.get_argument('id', None)
+                if item_id is not None:
+                    sql = "DELETE FROM building_roof_type_correction WHERE id = %s"
+                    self.db.execute(sql, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            elif table == 'building_additional_price':
+                item_id = self.get_argument('id', None)
+                if item_id is not None:
+                    sql = "DELETE FROM building_additional_price WHERE id = %s"
+                    self.db.execute(sql, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            if table == 'building_volume_ratio':
+                item_id = self.get_argument('id', None)
+                if item_id is not None:
+                    sql = "DELETE FROM building_volume_ratio WHERE id = %s"
+                    self.db.execute(sql, item_id)
+                    self.write(json_encode({'action' : 'success'}))
+                else:
+                    raise tornado.web.HTTPError(400)
+            else:
+                raise tornado.web.HTTPError(400)
         else:
-            pass
+            raise tornado.web.HTTPError(400)
 
 class Application(tornado.web.Application):
     def __init__(self):

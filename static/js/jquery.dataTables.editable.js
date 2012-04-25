@@ -315,6 +315,14 @@
                             sCellValue = '住宅'
                         else if (sCellValue == 'nonresidential')
                             sCellValue = '非住宅'
+                        else if (sCellValue == 'east')
+                            sCellValue = '东'
+                        else if (sCellValue == 'south')
+                            sCellValue = '南'
+                        else if (sCellValue == 'west')
+                            sCellValue = '西'
+                        else if (sCellValue == 'north')
+                            sCellValue = '北'
                         values[rel] = sCellValue;
                     }
                 });

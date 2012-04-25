@@ -1,31 +1,64 @@
-<div class="table">
+<div id="building_additional_price" class="container">
     <h3>楼房增项价格</h3>
-    <div id="building_additional_price_add" class="add_button">
+    <div id="building_additional_price_add" class="add_button" style="display:none">
         <a href="/business/imposition/database/building/add?t=building_additional_price">添加</a>
     </div>
-    <div id="building_additional_price_add_field" style="display:none">
+    <div>
+        <form id="formAddNewRow_building_additional_price" class="add_form" action="#" title="Add new record">
+            <span style="display:none">
+            <label for="index">Index:</label><br/>
+            <input type="hidden" name="index" value="" rel="0"/>
+            </span>
+            <span style="display:none">
+            <label for="product_id">Product ID:</label><br/>
+            <input type="hidden" name="product_id" value="" rel="1"/>
+            </span>
+            <span>
+            <label for="additional">增项:</label><br />
+            <input type="text" name="additional" value="" class="required" rel="2"/>
+            </span>
+            <br />
+            <span>
+            <label for="price">价格:</label><br />
+            <input type="text" name="price" value="" class="required number" rel="3"/>
+            </span>
+            <br />
+        </form>
+    </div>
+    <!--
+    <div id="building_additional_price_add_field" class="add_field" style="display:none">
         <form id="building_additional_price_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_additional_price">
+            {{ xsrf_form_html() }}
             <p><em>*</em>增项:<input type="text" name="additional" value="" class="required"/></p>
-            <p><em>*</em>价格:<input type="text" name="price" value="" class="required"/></p>
+            <p><em>*</em>价格:<input type="text" name="price" value="" class="required number"/></p>
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>
-    <table>
-        <thead>
-            <th>序号</th>
-            <th>增项</th>
-            <th>价格</th>
-            <th>删除</th>
-        </thead>
-        {% for index, item in enumerate(data) %}
-            <tr>
-                <td><a href="/business/imposition/database/building/update?t=building_additional_price">{{ index+1 }}</a></td>
-                <td>{{ escape(item.additional) }}</td>
-                <td>{{ item.price }}</td>
-                <td>
-                    <a href="/business/imposition/database/building/delete?t=building_additional_price">删除</a>
-                </td>
-            </tr>
-        {% end %}
-    </table>
+    -->
+    <div id="building_additional_price_del" class="del_button" style="display:none">
+        <a href="/business/imposition/database/building/delete?t=building_additional_price">删除</a>
+    </div>
+    <div class="add_delete_toolbar_building_additional_price" />
+    <div class="table_data">
+        <table cellpadding="0" cellspacing="0" border="0" class="table display" id="building_additional_price_tb">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>id</th>
+                    <th>增项</th>
+                    <th>价格</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, item in enumerate(data) %}
+                    <tr id="{{ item.id }}">
+                        <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ escape(item.additional) }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                {% end %}
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -1,4 +1,8 @@
-var oTable;
+var oTable_building_basic_price;
+var oTable_building_towards_correction;
+var oTable_building_roof_type_correction;
+var oTable_building_additional_price;
+var oTable_building_volume_ratio;
 $(document).ready(function() {
     $(".menu").accordion({
         animated: "slide",
@@ -56,14 +60,6 @@ $(document).ready(function() {
                     error: showError,
                     dataType: 'json',
                 };
-                $("#formAddNewRow").validate({
-                    submitHandler: function(form) {
-                        jQuery(form).ajaxSubmit(options);
-                    },
-                    errorPlacement: function(error, element) {
-                        error.appendTo(element.parent());
-                    }
-                });
                 $("input:submit", ".add_form").click(function(event) {
                     $(this).parents("form").validate({
                         submitHandler: function(form) {
@@ -73,6 +69,46 @@ $(document).ready(function() {
                             error.appendTo(element.parent());
                         }
                     });
+                });
+                $("#formAddNewRow_building_basic_price").validate({
+                    submitHandler: function(form) {
+                        jQuery(form).ajaxSubmit(options);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.appendTo(element.parent());
+                    }
+                });
+                $("#formAddNewRow_building_towards_correction").validate({
+                    submitHandler: function(form) {
+                        jQuery(form).ajaxSubmit(options);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.appendTo(element.parent());
+                    }
+                });
+                $("#formAddNewRow_building_roof_type_correction").validate({
+                    submitHandler: function(form) {
+                        jQuery(form).ajaxSubmit(options);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.appendTo(element.parent());
+                    }
+                });
+                $("#formAddNewRow_building_additional_price").validate({
+                    submitHandler: function(form) {
+                        jQuery(form).ajaxSubmit(options);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.appendTo(element.parent());
+                    }
+                });
+                $("#formAddNewRow_building_volume_ratio").validate({
+                    submitHandler: function(form) {
+                        jQuery(form).ajaxSubmit(options);
+                    },
+                    errorPlacement: function(error, element) {
+                        error.appendTo(element.parent());
+                    }
                 });
                 $(".del_button").click(function(event) {
                     var anSelected = fnGetSelected(oTable);
@@ -86,7 +122,7 @@ $(document).ready(function() {
                     event.preventDefault();
                     return false;
                 });
-                oTable = $(".table").dataTable({
+                oTable_building_basic_price = $("#building_basic_price_tb").dataTable({
                     "bJQueryUI": true,
                     "sPaginationType": "full_numbers",
                     "bPaginate": true,
@@ -110,16 +146,24 @@ $(document).ready(function() {
                         }
                     },
                     "aoColumnDefs": [
-                        {"bSortable": false, "aTargets": [ 0 ]}
+                        {"bSortable": false, "aTargets": [ 0 ]},
+                        {"bSortable": false, "bVisible": false, "aTargets": [ 1 ]},
                     ],
                     "aaSorting": [[ 1, 'asc' ]],
+                    "bRetrieve": true,
+                    "bDestroy": true,
                 });
-                oTable.fnSetColumnVis(1, false);
-                var add_url = $(".add_button > a").attr("href");
-                var delete_url = $(".del_button > a").attr("href");
-                oTable.makeEditable({
-                    sAddURL:add_url,
-                    sDeleteURL: delete_url,
+                var add_url_building_basic_price = $("#building_basic_price_add > a").attr("href");
+                var delete_url_building_basic_price = $("#building_basic_price_del > a").attr("href");
+                oTable_building_basic_price.makeEditable({
+                    sAddNewRowFormId:"formAddNewRow_building_basic_price",
+                    sAddNewRowButtonId:"btnAddNewRow_building_basic_price",
+                    sAddNewRowOkButtonId: "btnAddNewRowOk_building_basic_price",
+                    sAddNewRowCancelButtonId: "btnAddNewRowCancel_building_basic_price",
+                    sDeleteRowButtonId: "btnDeleteRow_building_basic_price",
+                    sAddURL:add_url_building_basic_price,
+                    sDeleteURL: delete_url_building_basic_price,
+                    sAddDeleteToolbarSelector: ".add_delete_toolbar_building_basic_price",
                     "aoColumns": [
                         null,
                         {
@@ -189,6 +233,381 @@ $(document).ready(function() {
                         hide: "explode"
                     },
                 });
+                oTable_building_towards_correction = $("#building_towards_correction_tb").dataTable({
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": true,
+                    "oLanguage": {
+                        "sLengthMenu": "Display _MENU_ records per page",
+                        "sZeroRecords": "Nothing found - sorry",
+                        "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+                        "sInfoEmpty": "Showing 0 to 0 of 0 records",
+                        "sInfoFiltered": "(filtered from _MAX_ total records)"
+                    },
+                    "fnDrawCallback": function(oSettings) {
+                        if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
+                            for (var i=0, iLen=oSettings.aiDisplay.length; i<iLen; i++) {
+                                $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr).html(i+1);
+                            }
+                        }
+                    },
+                    "aoColumnDefs": [
+                        {"bSortable": false, "aTargets": [ 0 ]},
+                        {"bSortable": false, "bVisible": false, "aTargets": [ 1 ]},
+                    ],
+                    "aaSorting": [[ 1, 'asc' ]],
+                    "bRetrieve": true,
+                    "bDestroy": true,
+                });
+                var add_url_building_towards_correction = $("#building_towards_correction_add > a").attr("href");
+                var delete_url_building_towards_correction = $("#building_towards_correction_del > a").attr("href");
+                oTable_building_towards_correction.makeEditable({
+                    sAddNewRowFormId:"formAddNewRow_building_towards_correction",
+                    sAddNewRowButtonId:"btnAddNewRow_building_towards_correction",
+                    sAddNewRowOkButtonId: "btnAddNewRowOk_building_towards_correction",
+                    sAddNewRowCancelButtonId: "btnAddNewRowCancel_building_towards_correction",
+                    sDeleteRowButtonId: "btnDeleteRow_building_towards_correction",
+                    sAddURL:add_url_building_towards_correction,
+                    sDeleteURL: delete_url_building_towards_correction,
+                    sAddDeleteToolbarSelector: ".add_delete_toolbar_building_towards_correction",
+                    "aoColumns": [
+                        null,
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to select',
+                            loadtext: 'loading...',
+                            type: 'select',
+                            onblur: 'cancel',
+                            submit: 'OK',
+                            data: "{'east':'东', 'south':'南', 'west':'西', 'north':'北'}",
+                            column: 'towards',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_towards_correction"
+                        },
+                        {
+                            cssclass: 'required, number',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'correction_factor',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_towards_correction"
+                        },
+                    ],
+                    oAddNewRowButtonOptions: { 
+                        label: "添加...",
+                        icons: { primary: 'ui-icon-plus' }
+                    },
+                    oDeleteRowButtonOptions: {
+                        label: "删除",
+                        icons: { primary: 'ui-icon-trash' }
+                    },
+                    oAddNewRowOkButtonOptions: {
+                        label: "确定",
+                        icons: { primary: 'ui-icon-check' },
+                        name: "action",
+                        value: "add-new"
+                    },
+                    oAddNewRowCancelButtonOptions: { 
+                        label: "取消",
+                        class: "back-class",
+                        name: "action",
+                        value: "cancel-add",
+                        icons: { primary: 'ui-icon-close' }
+                    },
+                    oAddNewRowFormOptions: {
+                        title: '新增',
+                        show: "blind",
+                        hide: "explode"
+                    },
+                });
+                oTable_building_roof_type_correction = $("#building_roof_type_correction_tb").dataTable({
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": true,
+                    "oLanguage": {
+                        "sLengthMenu": "Display _MENU_ records per page",
+                        "sZeroRecords": "Nothing found - sorry",
+                        "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+                        "sInfoEmpty": "Showing 0 to 0 of 0 records",
+                        "sInfoFiltered": "(filtered from _MAX_ total records)"
+                    },
+                    "fnDrawCallback": function(oSettings) {
+                        if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
+                            for (var i=0, iLen=oSettings.aiDisplay.length; i<iLen; i++) {
+                                $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr).html(i+1);
+                            }
+                        }
+                    },
+                    "aoColumnDefs": [
+                        {"bSortable": false, "aTargets": [ 0 ]},
+                        {"bSortable": false, "bVisible": false, "aTargets": [ 1 ]},
+                    ],
+                    "aaSorting": [[ 1, 'asc' ]],
+                    "bRetrieve": true,
+                    "bDestroy": true,
+                });
+                var add_url_building_roof_type_correction = $("#building_roof_type_correction_add > a").attr("href");
+                var delete_url_building_roof_type_correction = $("#building_roof_type_correction_del > a").attr("href");
+                oTable_building_roof_type_correction.makeEditable({
+                    sAddNewRowFormId:"formAddNewRow_building_roof_type_correction",
+                    sAddNewRowButtonId:"btnAddNewRow_building_roof_type_correction",
+                    sAddNewRowOkButtonId: "btnAddNewRowOk_building_roof_type_correction",
+                    sAddNewRowCancelButtonId: "btnAddNewRowCancel_building_roof_type_correction",
+                    sDeleteRowButtonId: "btnDeleteRow_building_roof_type_correction",
+                    sAddURL:add_url_building_roof_type_correction,
+                    sDeleteURL: delete_url_building_roof_type_correction,
+                    sAddDeleteToolbarSelector: ".add_delete_toolbar_building_roof_type_correction",
+                    "aoColumns": [
+                        null,
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to select',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'roof_type',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_roof_type_correction"
+                        },
+                        {
+                            cssclass: 'required, number',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'correction_factor',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_roof_type_correction"
+                        },
+                    ],
+                    oAddNewRowButtonOptions: { 
+                        label: "添加...",
+                        icons: { primary: 'ui-icon-plus' }
+                    },
+                    oDeleteRowButtonOptions: {
+                        label: "删除",
+                        icons: { primary: 'ui-icon-trash' }
+                    },
+                    oAddNewRowOkButtonOptions: {
+                        label: "确定",
+                        icons: { primary: 'ui-icon-check' },
+                        name: "action",
+                        value: "add-new"
+                    },
+                    oAddNewRowCancelButtonOptions: { 
+                        label: "取消",
+                        class: "back-class",
+                        name: "action",
+                        value: "cancel-add",
+                        icons: { primary: 'ui-icon-close' }
+                    },
+                    oAddNewRowFormOptions: {
+                        title: '新增',
+                        show: "blind",
+                        hide: "explode"
+                    },
+                });
+                oTable_building_additional_price = $("#building_additional_price_tb").dataTable({
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": true,
+                    "oLanguage": {
+                        "sLengthMenu": "Display _MENU_ records per page",
+                        "sZeroRecords": "Nothing found - sorry",
+                        "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+                        "sInfoEmpty": "Showing 0 to 0 of 0 records",
+                        "sInfoFiltered": "(filtered from _MAX_ total records)"
+                    },
+                    "fnDrawCallback": function(oSettings) {
+                        if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
+                            for (var i=0, iLen=oSettings.aiDisplay.length; i<iLen; i++) {
+                                $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr).html(i+1);
+                            }
+                        }
+                    },
+                    "aoColumnDefs": [
+                        {"bSortable": false, "aTargets": [ 0 ]},
+                        {"bSortable": false, "bVisible": false, "aTargets": [ 1 ]},
+                    ],
+                    "aaSorting": [[ 1, 'asc' ]],
+                    "bRetrieve": true,
+                    "bDestroy": true,
+                });
+                var add_url_building_additional_price = $("#building_additional_price_add > a").attr("href");
+                var delete_url_building_additional_price = $("#building_additional_price_del > a").attr("href");
+                oTable_building_additional_price.makeEditable({
+                    sAddNewRowFormId:"formAddNewRow_building_additional_price",
+                    sAddNewRowButtonId:"btnAddNewRow_building_additional_price",
+                    sAddNewRowOkButtonId: "btnAddNewRowOk_building_additional_price",
+                    sAddNewRowCancelButtonId: "btnAddNewRowCancel_building_additional_price",
+                    sDeleteRowButtonId: "btnDeleteRow_building_additional_price",
+                    sAddURL:add_url_building_additional_price,
+                    sDeleteURL: delete_url_building_additional_price,
+                    sAddDeleteToolbarSelector: ".add_delete_toolbar_building_additional_price",
+                    "aoColumns": [
+                        null,
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to select',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'additional',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_additional_price"
+                        },
+                        {
+                            cssclass: 'required, number',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'price',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_additional_price"
+                        },
+                    ],
+                    oAddNewRowButtonOptions: { 
+                        label: "添加...",
+                        icons: { primary: 'ui-icon-plus' }
+                    },
+                    oDeleteRowButtonOptions: {
+                        label: "删除",
+                        icons: { primary: 'ui-icon-trash' }
+                    },
+                    oAddNewRowOkButtonOptions: {
+                        label: "确定",
+                        icons: { primary: 'ui-icon-check' },
+                        name: "action",
+                        value: "add-new"
+                    },
+                    oAddNewRowCancelButtonOptions: { 
+                        label: "取消",
+                        class: "back-class",
+                        name: "action",
+                        value: "cancel-add",
+                        icons: { primary: 'ui-icon-close' }
+                    },
+                    oAddNewRowFormOptions: {
+                        title: '新增',
+                        show: "blind",
+                        hide: "explode"
+                    },
+                });
+                oTable_building_volume_ratio = $("#building_volume_ratio_tb").dataTable({
+                    "bJQueryUI": true,
+                    "sPaginationType": "full_numbers",
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": true,
+                    "oLanguage": {
+                        "sLengthMenu": "Display _MENU_ records per page",
+                        "sZeroRecords": "Nothing found - sorry",
+                        "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+                        "sInfoEmpty": "Showing 0 to 0 of 0 records",
+                        "sInfoFiltered": "(filtered from _MAX_ total records)"
+                    },
+                    "fnDrawCallback": function(oSettings) {
+                        if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
+                            for (var i=0, iLen=oSettings.aiDisplay.length; i<iLen; i++) {
+                                $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr).html(i+1);
+                            }
+                        }
+                    },
+                    "aoColumnDefs": [
+                        {"bSortable": false, "aTargets": [ 0 ]},
+                        {"bSortable": false, "bVisible": false, "aTargets": [ 1 ]},
+                    ],
+                    "aaSorting": [[ 1, 'asc' ]],
+                    "bRetrieve": true,
+                    "bDestroy": true,
+                });
+                var add_url_building_volume_ratio = $("#building_volume_ratio_add > a").attr("href");
+                var delete_url_building_volume_ratio = $("#building_volume_ratio_del > a").attr("href");
+                oTable_building_volume_ratio.makeEditable({
+                    sAddNewRowFormId:"formAddNewRow_building_volume_ratio",
+                    sAddNewRowButtonId:"btnAddNewRow_building_volume_ratio",
+                    sAddNewRowOkButtonId: "btnAddNewRowOk_building_volume_ratio",
+                    sAddNewRowCancelButtonId: "btnAddNewRowCancel_building_volume_ratio",
+                    sDeleteRowButtonId: "btnDeleteRow_building_volume_ratio",
+                    sAddURL:add_url_building_volume_ratio,
+                    sDeleteURL: delete_url_building_volume_ratio,
+                    sAddDeleteToolbarSelector: ".add_delete_toolbar_building_volume_ratio",
+                    "aoColumns": [
+                        null,
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'volume',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_volume_ratio"
+                        },
+                        {
+                            cssclass: 'required, number',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to input',
+                            loadtext: 'loading...',
+                            type: 'text',
+                            column: 'correction_factor',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_volume_ratio"
+                        },
+                        {
+                            cssclass: 'required',
+                            indicator: 'Saving...',
+                            tooltip: 'Click to select',
+                            loadtext: 'loading...',
+                            type: 'select',
+                            onblur: 'cancel',
+                            submit: 'OK',
+                            data: "{'residential':'住宅', 'nonresidential':'非住宅'}",
+                            column: 'product_type',
+                            sUpdateURL: "/business/imposition/database/building/update?t=building_volume_ratio"
+                        },
+                    ],
+                    oAddNewRowButtonOptions: { 
+                        label: "添加...",
+                        icons: { primary: 'ui-icon-plus' }
+                    },
+                    oDeleteRowButtonOptions: {
+                        label: "删除",
+                        icons: { primary: 'ui-icon-trash' }
+                    },
+                    oAddNewRowOkButtonOptions: {
+                        label: "确定",
+                        icons: { primary: 'ui-icon-check' },
+                        name: "action",
+                        value: "add-new"
+                    },
+                    oAddNewRowCancelButtonOptions: { 
+                        label: "取消",
+                        class: "back-class",
+                        name: "action",
+                        value: "cancel-add",
+                        icons: { primary: 'ui-icon-close' }
+                    },
+                    oAddNewRowFormOptions: {
+                        title: '新增',
+                        show: "blind",
+                        hide: "explode"
+                    },
+                });
             },
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(
@@ -229,12 +648,6 @@ function fnGetSelected(oTableLocal) {
 function showError(data) {
     alert(data);
 }
-
-function callback() {
-    setTimeout(function() {
-        $("#bodyText").hide();
-    }, 5000);
-};
 
 /*
 (function ($) {

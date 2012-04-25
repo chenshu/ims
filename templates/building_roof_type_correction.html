@@ -1,31 +1,64 @@
-<div class="table">
+<div id="building_roof_type_correction" class="container">
     <h3>楼房屋面类型修正</h3>
-    <div id="building_roof_type_correction_add" class="add_button">
+    <div id="building_roof_type_correction_add" class="add_button" style="display:none">
         <a href="/business/imposition/database/building/add?t=building_roof_type_correction">添加</a>
     </div>
-    <div id="building_roof_type_correction_add_field" style="display:none">
+    <div>
+        <form id="formAddNewRow_building_roof_type_correction" class="add_form" action="#" title="Add new record">
+            <span style="display:none">
+            <label for="index">Index:</label><br/>
+            <input type="hidden" name="index" value="" rel="0"/>
+            </span>
+            <span style="display:none">
+            <label for="product_id">Product ID:</label><br/>
+            <input type="hidden" name="product_id" value="" rel="1"/>
+            </span>
+            <span>
+            <label for="roof_type">屋面类型:</label><br />
+            <input type="text" name="roof_type" value="" class="required" rel="2"/>
+            </span>
+            <br />
+            <span>
+            <label for="correction_factor">修正系数:</label><br />
+            <input type="text" name="correction_factor" value="" class="required number" rel="3"/>
+            </span>
+            <br />
+        </form>
+    </div>
+    <!--
+    <div id="building_roof_type_correction_add_field" class="add_field" style="display:none">
         <form id="building_roof_type_correction_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_roof_type_correction">
+            {{ xsrf_form_html() }}
             <p><em>*</em>屋面类型:<input type="text" name="roof_type" value="" class="required"/></p>
-            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required"/></p>
+            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required number"/></p>
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>
-    <table>
-        <thead>
-            <th>序号</th>
-            <th>屋面类型</th>
-            <th>修正系数</th>
-            <th>删除</th>
-        </thead>
-        {% for index, item in enumerate(data) %}
-            <tr>
-                <td><a href="/business/imposition/database/building/update?t=building_roof_type_correction">{{ index+1 }}</a></td>
-                <td>{{ escape(item.roof_type) }}</td>
-                <td>{{ item.correction_factor }}</td>
-                <td>
-                    <a href="/business/imposition/database/building/delete?t=building_roof_type_correction">删除</a>
-                </td>
-            </tr>
-        {% end %}
-    </table>
+    -->
+    <div id="building_roof_type_correction_del" class="del_button" style="display:none">
+        <a href="/business/imposition/database/building/delete?t=building_roof_type_correction">删除</a>
+    </div>
+    <div class="add_delete_toolbar_building_roof_type_correction" />
+    <div class="table_data">
+        <table cellpadding="0" cellspacing="0" border="0" class="table display" id="building_roof_type_correction_tb">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>id</th>
+                    <th>屋面类型</th>
+                    <th>修正系数</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, item in enumerate(data) %}
+                    <tr id="{{ item.id }}">
+                        <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ escape(item.roof_type) }}</td>
+                        <td>{{ item.correction_factor }}</td>
+                    </tr>
+                {% end %}
+            </tbody>
+        </table>
+    </div>
 </div>

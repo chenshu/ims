@@ -1,10 +1,40 @@
-<div id="building_towards_correction">
+<div id="building_towards_correction" class="container">
     <h3>楼房朝向修正</h3>
-    <div id="building_towards_correction_add" class="add_button">
+    <div id="building_towards_correction_add" class="add_button" style="display:none">
         <a href="/business/imposition/database/building/add?t=building_towards_correction">添加</a>
     </div>
-    <div id="building_towards_correction_add_field" style="display:none">
+    <div>
+        <form id="formAddNewRow_building_towards_correction" class="add_form" action="#" title="Add new record">
+            <span style="display:none">
+            <label for="index">Index:</label><br/>
+            <input type="hidden" name="index" value="" rel="0"/>
+            </span>
+            <span style="display:none">
+            <label for="product_id">Product ID:</label><br/>
+            <input type="hidden" name="product_id" value="" rel="1"/>
+            </span>
+            <span>
+            <label for="towards">朝向:</label><br />
+            <select name="towards" class="required" rel="2">
+                <option value="" selected="selected">选择朝向</option>
+                <option value="earth">东</option>
+                <option value="south">南</option>
+                <option value="west">西</option>
+                <option value="north">北</option>
+            </select>
+            </span>
+            <br />
+            <span>
+            <label for="correction_factor">修正系数:</label><br />
+            <input type="text" name="correction_factor" value="" class="required number" rel="3"/>
+            </span>
+            <br />
+        </form>
+    </div>
+    <!--
+    <div id="building_towards_correction_add_field" class="add_field" style="display:none">
         <form id="building_towards_correction_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_towards_correction">
+            {{ xsrf_form_html() }}
             <p><em>*</em>朝向:
             <select name="towards" class="required">
                 <option value="" selected="selected">选择朝向</option>
@@ -13,26 +43,35 @@
                 <option value="west">西</option>
                 <option value="north">北</option>
             </select></p>
-            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required"/></p>
+            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required number"/></p>
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>
-    <table>
-        <thead>
-            <th>序号</th>
-            <th>朝向</th>
-            <th>修正系数</th>
-            <th>删除</th>
-        </thead>
-        {% for index, item in enumerate(data) %}
-            <tr>
-                <td><a href="/business/imposition/database/building/update?t=building_towards_correction">{{ index+1 }}</a></td>
-                <td>{{ escape(item.towards) }}</td>
-                <td>{{ item.correction_factor }}</td>
-                <td>
-                    <a href="/business/imposition/database/building/delete?t=building_towards_correction">删除</a>
-                </td>
-            </tr>
-        {% end %}
-    </table>
+    -->
+    <div id="building_towards_correction_del" class="del_button" style="display:none">
+        <a href="/business/imposition/database/building/delete?t=building_towards_correction">删除</a>
+    </div>
+    <div class="add_delete_toolbar_building_towards_correction" />
+    <div class="table_data">
+        <table cellpadding="0" cellspacing="0" border="0" class="table display" id="building_towards_correction_tb">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>id</th>
+                    <th>朝向</th>
+                    <th>修正系数</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, item in enumerate(data) %}
+                    <tr id="{{ item.id }}">
+                        <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ escape(item.towards) }}</td>
+                        <td>{{ item.correction_factor }}</td>
+                    </tr>
+                {% end %}
+            </tbody>
+        </table>
+    </div>
 </div>

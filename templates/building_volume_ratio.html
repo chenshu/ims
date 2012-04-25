@@ -1,36 +1,74 @@
-<div class="table">
+<div id="building_volume_ratio" class="container">
     <h3>楼房容积率</h3>
-    <div id="building_volume_ratio_add" class="add_button">
+    <div id="building_volume_ratio_add" class="add_button" style="display:none">
         <a href="/business/imposition/database/building/add?t=building_volume_ratio">添加</a>
     </div>
-    <div id="building_volume_ratio_add_field" style="display:none">
+    <div>
+        <form id="formAddNewRow_building_volume_ratio" class="add_form" action="#" title="Add new record">
+            <span style="display:none">
+            <label for="index">Index:</label><br/>
+            <input type="hidden" name="index" value="" rel="0"/>
+            </span>
+            <span style="display:none">
+            <label for="product_id">Product ID:</label><br/>
+            <input type="hidden" name="product_id" value="" rel="1"/>
+            </span>
+            <span>
+            <label for="volume">容积率系数:</label><br />
+            <input type="text" name="volume" value="" class="required" rel="2"/>
+            </span>
+            <br />
+            <span>
+            <label for="correction_factor">修正系数:</label><br />
+            <input type="text" name="correction_factor" value="" class="required number" rel="3"/>
+            </span>
+            <br />
+            <span>
+            <label for="product_type">产别:</label><br />
+            <input type="radio" name="product_type" value="residential" class="required" rel="4"/>住宅
+            <input type="radio" name="product_type" value="nonresidential" class="required" rel="4"/>非住宅
+            </span>
+            <br />
+        </form>
+    </div>
+    <!--
+    <div id="building_volume_ratio_add_field" class="add_field" style="display:none">
         <form id="building_volume_ratio_add_form" class="add_form" method="post" action="/business/imposition/database/building/add?t=building_volume_ratio">
+            {{ xsrf_form_html() }}
             <p><em>*</em>容积率系数:<input type="text" name="volume" value="" class="required"/></p>
-            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required"/></p>
+            <p><em>*</em>修正系数:<input type="text" name="correction_factor" value="" class="required number"/></p>
             <p><em>*</em>类别:
                 住宅<input type="radio" name="product_type" value="residential" class="required"/>
                 非住宅<input type="radio" name="product_type" value="nonresidential" class="required"/></p>
             <p><input type="submit" value="提交"/></p>
         </form>
     </div>
-    <table>
-        <thead>
-            <th>序号</th>
-            <th>容积率系数</th>
-            <th>修正系数</th>
-            <th>类别</th>
-            <th>删除</th>
-        </thead>
-        {% for index, item in enumerate(data) %}
-            <tr>
-                <td><a href="/business/imposition/database/building/update?t=building_volume_ratio">{{ index+1 }}</a></td>
-                <td>{{ escape(item.volume) }}</td>
-                <td>{{ item.correction_factor }}</td>
-                <td>{{ escape(item.product_type) }}</td>
-                <td>
-                    <a href="/business/imposition/database/building/delete?t=building_volume_ratio">删除</a>
-                </td>
-            </tr>
-        {% end %}
+    -->
+    <div id="building_volume_ratio_del" class="del_button" style="display:none">
+        <a href="/business/imposition/database/building/delete?t=building_volume_ratio">删除</a>
+    </div>
+    <div class="add_delete_toolbar_building_volume_ratio" />
+    <div class="table_data">
+        <table cellpadding="0" cellspacing="0" border="0" class="table display" id="building_volume_ratio_tb">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>id</th>
+                    <th>容积率系数</th>
+                    <th>修正系数</th>
+                    <th>类别</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, item in enumerate(data) %}
+                    <tr id="{{ item.id }}">
+                        <td>{{ index+1 }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ escape(item.volume) }}</td>
+                        <td>{{ item.correction_factor }}</td>
+                        <td>{{ escape(item.product_type) }}</td>
+                    </tr>
+                {% end %}
+            </tbody>
     </table>
 </div>
