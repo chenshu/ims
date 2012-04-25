@@ -409,7 +409,7 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
                     self.write(json_encode({'action' : 'success'}))
                 else:
                     raise tornado.web.HTTPError(400)
-            if table == 'building_volume_ratio':
+            elif table == 'building_volume_ratio':
                 item_id = self.get_argument('id', None)
                 if item_id is not None:
                     sql = "DELETE FROM building_volume_ratio WHERE id = %s"
