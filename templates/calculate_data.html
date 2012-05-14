@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="calculate_data" class="container">
+        <h3>成新计算表</h3>
+        <div id="calculate_data_add" class="add_button" style="display:none">
+            <a href="/project/add">添加</a>
+        </div>
+        <div>
+            <form id="formAddNewRow_calculate_data" class="add_form" action="#" title="Add new record">
+                <span style="display:none">
+                <label for="index">Index:</label><br/>
+                <input type="hidden" name="index" value="" rel="0"/>
+                </span>
+                <span style="display:none">
+                <label for="product_id">Product ID:</label><br/>
+                <input type="hidden" name="product_id" value="" rel="1"/>
+                </span>
+                <br />
+            </form>
+        </div>
+        <div id="calculate_data_del" class="del_button" style="display:none">
+            <a href="/project/delete">删除</a>
+        </div>
+        <div class="add_delete_toolbar_calculate_data" />
+        <div id="showColumn">
+            <button>隐藏属性</button>
+            <form id="colShowHidn" action="#" style="display:none">
+                <input type="checkbox" name="hidnColumn" value="2" />报告编号
+                <input type="checkbox" name="hidnColumn" value="3" />产权人姓名
+                <input type="checkbox" name="hidnColumn" value="4" />产权类型
+                <input type="checkbox" name="hidnColumn" value="5" />产别
+                <input type="checkbox" name="hidnColumn" value="6" />房屋坐落
+                <input type="checkbox" name="hidnColumn" value="7" />产权证号
+                <input type="checkbox" name="hidnColumn" value="8" />容积率
+                <input type="checkbox" name="hidnColumn" value="9" />容积率调整系数<br/>
+                <input type="checkbox" name="hidnColumn" value="10" />总楼层
+                <input type="checkbox" name="hidnColumn" value="11" />所在层
+                <input type="checkbox" name="hidnColumn" value="12" />房号
+                <input type="checkbox" name="hidnColumn" value="13" />房屋类型
+                <input type="checkbox" name="hidnColumn" value="14" />建筑面积
+                <input type="checkbox" name="hidnColumn" value="15" />附加面积
+                <input type="checkbox" name="hidnColumn" value="16" />建筑用途
+                <input type="checkbox" name="hidnColumn" value="17" />结构类型及墙体类型<br/>
+                <input type="checkbox" name="hidnColumn" value="18" />基本价格
+                <input type="checkbox" name="hidnColumn" value="19" />结构归类
+                <input type="checkbox" name="hidnColumn" value="20" />朝向
+                <input type="checkbox" name="hidnColumn" value="21" />朝向修正系数
+                <input type="checkbox" name="hidnColumn" value="22" />屋面类型
+                <input type="checkbox" name="hidnColumn" value="23" />屋面类型修正系数
+                <input type="checkbox" name="hidnColumn" value="24" />成新
+                <input type="checkbox" name="hidnColumn" value="25" />基本价格结果<br/>
+                <input type="checkbox" name="hidnColumn" value="26" />增项1
+                <input type="checkbox" name="hidnColumn" value="27" />增项1价格
+                <input type="checkbox" name="hidnColumn" value="28" />增项2
+                <input type="checkbox" name="hidnColumn" value="29" />增项2价格
+                <input type="checkbox" name="hidnColumn" value="30" />增项3
+                <input type="checkbox" name="hidnColumn" value="31" />增项3价格
+                <input type="checkbox" name="hidnColumn" value="32" />增项4
+                <input type="checkbox" name="hidnColumn" value="33" />增项4价格
+                <input type="checkbox" name="hidnColumn" value="34" />增项结果
+                <input type="checkbox" name="hidnColumn" value="35" />房屋总价
+                <input type="checkbox" name="hidnColumn" value="36" />房屋单价<br/>
+            </form>
+        </div>
+        <div class="table_data">
+            <table cellpadding="0" cellspacing="0" border="0" class="table display" id="calculate_data_tb">
+                <thead>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">id</th>
+                        <th rowspan="2">报告编号</th>
+                        <th rowspan="2">产权人姓名</th>
+                        <th rowspan="2">产权类型</th>
+                        <th rowspan="2">产别</th>
+                        <th rowspan="2">房屋坐落</th>
+                        <th rowspan="2">产权证号</th>
+                        <th colspan="2" class="ui-state-default">容积率</th>
+                        <th rowspan="2">总楼层</th>
+                        <th rowspan="2">所在层</th>
+                        <th rowspan="2">房号</th>
+                        <th rowspan="2">房屋类型</th>
+                        <th rowspan="2">建筑面积</th>
+                        <th rowspan="2">附加面积</th>
+                        <th colspan="4" class="ui-state-default">基本价格</th>
+                        <th colspan="2" class="ui-state-default">朝向</th>
+                        <th colspan="2" class="ui-state-default">屋面类型</th>
+                        <th rowspan="2">成新</th>
+                        <th rowspan="2">基本价格结果</th>
+                        <th colspan="8" class="ui-state-default">增项</th>
+                        <th rowspan="2">增项结果</th>
+                        <th rowspan="2">房屋总价</th>
+                        <th rowspan="2">房屋单价</th>
+                    </tr>
+                    <tr>
+                        <th>容积率</th>
+                        <th>容积率调整系数</th>
+                        <th>建筑用途</th>
+                        <th>结构类型及墙体类型</th>
+                        <th>基本价格</th>
+                        <th>结构归类</th>
+                        <th>朝向</th>
+                        <th>朝向修正系数</th>
+                        <th>屋面类型</th>
+                        <th>屋面类型修正系数</th>
+                        <th>增项1</th>
+                        <th>增项1价格</th>
+                        <th>增项2</th>
+                        <th>增项2价格</th>
+                        <th>增项3</th>
+                        <th>增项3价格</th>
+                        <th>增项4</th>
+                        <th>增项4价格</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">id</th>
+                        <th rowspan="2">报告编号</th>
+                        <th rowspan="2">产权人姓名</th>
+                        <th rowspan="2">产权类型</th>
+                        <th rowspan="2">产别</th>
+                        <th rowspan="2">房屋坐落</th>
+                        <th rowspan="2">产权证号</th>
+                        <th>容积率</th>
+                        <th>容积率调整系数</th>
+                        <th rowspan="2">总楼层</th>
+                        <th rowspan="2">所在层</th>
+                        <th rowspan="2">房号</th>
+                        <th rowspan="2">房屋类型</th>
+                        <th rowspan="2">建筑面积</th>
+                        <th rowspan="2">附加面积</th>
+                        <th>建筑用途</th>
+                        <th>结构类型及墙体类型</th>
+                        <th>基本价格</th>
+                        <th>结构归类</th>
+                        <th>朝向</th>
+                        <th>朝向修正系数</th>
+                        <th>屋面类型</th>
+                        <th>屋面类型修正系数</th>
+                        <th rowspan="2">成新</th>
+                        <th rowspan="2">基本价格结果</th>
+                        <th>增项1</th>
+                        <th>增项1价格</th>
+                        <th>增项2</th>
+                        <th>增项2价格</th>
+                        <th>增项3</th>
+                        <th>增项3价格</th>
+                        <th>增项4</th>
+                        <th>增项4价格</th>
+                        <th rowspan="2">增项结果</th>
+                        <th rowspan="2">房屋总价</th>
+                        <th rowspan="2">房屋单价</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">容积率</th>
+                        <th colspan="4">基本价格</th>
+                        <th colspan="2">朝向</th>
+                        <th colspan="2">屋面类型</th>
+                        <th colspan="8">增项</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for index, item in enumerate(data) %}
+                        <tr id="{{ item.id }}">
+                            <td>{{ index+1 }}</td>
+                            <td>{{ item.id }}</td>
+                            <td>{{ escape(item.no) }}</td>
+                            <td>{{ escape(item.owner_username) }}</td>
+                            <td>{{ escape(item.owner_type) }}</td>
+                            <td>{{ escape(item.product_type) }}</td>
+                            <td>{{ escape(item.location) }}</td>
+                            <td>{{ escape(item.owner_no) }}</td>
+                            <td>{{ escape(item.volume) }}</td>
+                            <td>{{ item.volume_correction_factor }}</td>
+                            <td>{{ item.total_floor }}</td>
+                            <td>{{ item.floor }}</td>
+                            <td>{{ escape(item.room_no) }}</td>
+                            <td>{{ escape(item.room_type) }}</td>
+                            <td>{{ escape(item.architecture_area) }}</td>
+                            <td>{{ escape(item.additional_area) }}</td>
+                            <td>{{ escape(item.product_purpose) }}</td>
+                            <td>{{ escape(item.product_structure) }}</td>
+                            <td>{{ item.product_price }}</td>
+                            <td>{{ escape(item.product_classify) }}</td>
+                            <td>{{ escape(item.towards) }}</td>
+                            <td>{{ item.towards_correction_factor }}</td>
+                            <td>{{ escape(item.roof_type) }}</td>
+                            <td>{{ item.roof_type_correction_factor }}</td>
+                            <td>{{ item.old_percent }}</td>
+                            <td>{{ item.basic_price_result }}</td>
+                            {% if item.additional1 %}
+                                <td>{{ escape(item.additional1) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional1_price %}
+                                <td>{{ escape(item.additional1_price) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional2 %}
+                                <td>{{ escape(item.additional2) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional2_price %}
+                                <td>{{ escape(item.additional2_price) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional3 %}
+                                <td>{{ escape(item.additional3) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional3_price %}
+                                <td>{{ escape(item.additional3_price) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional4 %}
+                                <td>{{ escape(item.additional4) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            {% if item.additional4_price %}
+                                <td>{{ escape(item.additional4_price) }}</td>
+                            {% else %}
+                                <td></td>
+                            {% end %}
+                            <td>{{ item.additional_result }}</td>
+                            <td>{{ item.total_price }}</td>
+                            <td>{{ item.unit_price }}</td>
+                        </tr>
+                    {% end %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% end %}

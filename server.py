@@ -422,6 +422,13 @@ class BusinessImpositionDatabaseDetailOperationHandler(BaseHandler):
         else:
             raise tornado.web.HTTPError(400)
 
+class CalculateDataHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        table = 'calculate_data'
+        data = self.db.query("SELECT * FROM %s" % (table))
+        self.render("%s.html" % (table), data=data)
+
 class Application(tornado.web.Application):
     def __init__(self):
         settings = dict(
@@ -453,6 +460,7 @@ class Application(tornado.web.Application):
             (r"/business/imposition/database", BusinessImpositionDatabaseHandler),
             (r"/business/imposition/database/([^/]+)", BusinessImpositionDatabaseDetailHandler),
             (r"/business/imposition/database/building/([^/]+)", BusinessImpositionDatabaseDetailOperationHandler),
+            (r"/project", CalculateDataHandler),
         ]
         tornado.web.Application.__init__(self, handlers, **settings)
 

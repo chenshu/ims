@@ -616,7 +616,103 @@ $(document).ready(function() {
         }
     });
 
+
+    $("#showColumn > button").button();
+    $("#showColumn > button").toggle(
+        function() {
+            $("#showColumn > form").show("slow");
+            return false;
+        },
+        function() {
+            $("#showColumn > form").hide();
+            return false;
+        }
+    );
+    $("#colShowHidn > input").click(function() {
+        if ($(this).attr("checked") == 'checked')
+            fnShowHide($(this).attr("value"));
+        else
+            fnShowHide($(this).attr("value"));
+    });
+    oTable_calculate_data = $("#calculate_data_tb").dataTable({
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "bPaginate": true,
+        "bLengthChange": true,
+        "bFilter": true,
+        "bSort": true,
+        "bInfo": true,
+        "bAutoWidth": true,
+        "sScrollX": "100%",
+        "bScrollCollapse": true,
+        "oLanguage": {
+            "sLengthMenu": "Display _MENU_ records per page",
+            "sZeroRecords": "Nothing found - sorry",
+            "sInfo": "Showing _START_ to _END_ of _TOTAL_ records",
+            "sInfoEmpty": "Showing 0 to 0 of 0 records",
+            "sInfoFiltered": "(filtered from _MAX_ total records)"
+        },
+        "fnDrawCallback": function(oSettings) {
+            if (oSettings.bSorted || oSettings.bFiltered || oSettings.bInitialised) {
+                for (var i=0, iLen=oSettings.aiDisplay.length; i<iLen; i++) {
+                    $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr).html(i+1);
+                }
+            }
+        },
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [ 0 ]},
+            {"bSortable": false, "bVisible": false, "aTargets": [ 1 ]},
+        ],
+        "aaSorting": [[ 1, 'asc' ]],
+        "bRetrieve": true,
+        "bDestroy": true,
+        "aoColumns": [
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+            {"sWidth": "100px"},
+        ],
+    });
 });
+
+function fnShowHide(iCol) {
+    var oTable = $('#calculate_data_tb').dataTable();
+    var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
+    oTable.fnSetColumnVis( iCol, bVis ? false : true );
+}
 
 function fnClickAddRow(data) {
     if (data.action == 'success') {
