@@ -3,11 +3,23 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>{{ escape(handler.settings["title"]) }}</title>
-    <link rel="stylesheet" href="{{ static_url("css/jquery-ui-1.8.18.css") }}" type="text/css"/>
+    <style type="text/css" media="screen">
+        /*
+        @import "{{ static_url("css/page.css") }}";
+        @import "{{ static_url("css/table.css") }}";
+        */
+        @import "{{ static_url("css/table_jui.css") }}";
+        .dataTables_info { padding-top: 0; }
+        .dataTables_paginate { padding-top: 0; }
+        .css_right { float: right; }
+        #table_data .fg-toolbar { font-size: 0.8em }
+        #theme_links span { float: left; padding: 2px 10px; }
+    </style>
+    <link rel="stylesheet" href="{{ static_url("css/jquery-ui-1.8.19.css") }}" type="text/css"/>
     <link rel="stylesheet" href="{{ static_url("css/ims.css") }}" type="text/css"/>
     <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["title"]) }}"/>
     <script type="text/javascript" src="{{ static_url("js/jquery-1.7.2.min.js") }}"></script>
-    <script type="text/javascript" src="{{ static_url("js/jquery-ui-1.8.18.min.js") }}"></script>
+    <script type="text/javascript" src="{{ static_url("js/jquery-ui-1.8.19.min.js") }}"></script>
     <script type="text/javascript" src="{{ static_url("js/ims.js") }}"></script>
     {% block head %}{% end %}
   </head>
